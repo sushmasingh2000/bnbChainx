@@ -1,216 +1,183 @@
 import axios from "axios";
-import { useFormik } from "formik";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import logo from "../assets/favicon.png";
-import body from "../assets/body-bg.png";
-import { endpoint } from "../utils/APIRoutes";
-import Loader from "../Shared/Loader";
 import Tilt from "react-parallax-tilt";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import Loader from "../Shared/Loader";
+import { endpoint } from "../utils/APIRoutes";
+import {
+  saveToken,
+  saveUid,
+  saveUserCP,
+  saveUsername,
+} from "../redux/slices/counterSlice";
+import { Refresh } from "@mui/icons-material";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const [walletAddress, setWalletAddress] = useState("");
   const [loading, setLoading] = useState(false);
+  const [walletAddress, setWalletAddress] = useState(null);
+  const [walletAddressArray, setwalletAddressArray] = useState([]);
+  const [searchParams] = useSearchParams();
+  const referral_id = searchParams.get("startapp") || null;
 
-  // async function requestAccount() {
-  //   setLoading(true);
-  //   if (window.ethereum) {
-  //     try {
-  //       await window.ethereum.request({
-  //         method: "wallet_switchEthereumChain",
-  //         params: [{ chainId: "0x38" }], // Chain ID for Binance Smart Chain Mainnet
-  //       });
-  //       const accounts = await window.ethereum.request({
-  //         method: "eth_requestAccounts",
-  //       });
-  //       const userAccount = accounts[0];
-  //       const reqBody = { wallet_address: userAccount };
-  //       const response = await axios.post(endpoint?.wallet_api, reqBody);
-  //       if (response?.data?.message === "Wallet Address Not Found") {
-  //         navigate("/register");
-  //       }
-  //       setWalletAddress(userAccount);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       toast.error("Error connecting to wallet.");
-  //       setLoading(false);
-  //     }
-  //   } else {
-  //     toast.error("MetaMask not detected.");
-  //     setLoading(false);
-  //   }
-  // }
-
-  // const WalletAvailabilityCheckFn = async () => {
-  //   if (!walletAddress) {
-  //     toast.error("Please connect your wallet first.");
-  //     return false;
-  //   }
-  //   setLoading(true);
-  //   const reqBody = { wallet_address: walletAddress };
-  //   try {
-  //     const response = await axios.post(endpoint?.wallet_api, reqBody);
-  //     toast(response?.data?.message);
-  //     setLoading(false);
-  //     if (response?.data?.message === "Wallet Address Not Found") {
-  //       navigate("/register");
-  //       return false;
-  //     }
-  //     return true;
-  //   } catch (error) {
-  //     console.error(error);
-  //     toast.error("Error checking wallet availability.");
-  //     setLoading(false);
-  //     return false;
-  //   }
-  // };
-
-  const initialValues = {
-    username: "",
-    password: "",
+  // const params = window?.Telegram?.WebApp?.initDataUnsafe?.start_param;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { logindataen, uid } = useSelector((state) => state.aviator);
+  const datatele = {
+    id: referral_id,
   };
-
-  const formik = useFormik({
-    initialValues,
-    enableReinitialize: true,
-    onSubmit: async (values) => {
-      // const isWalletAvailable = await WalletAvailabilityCheckFn();
-      // if (isWalletAvailable) {
-      const reqBody = {
-        username: values.username,
-        password: values.password,
-      };
-      loginFn(reqBody);
-      // }
-    },
-  });
+  useEffect(() => {
+    requestAccount();
+  }, []);
+  async function requestAccount() {
+    setLoading(true);
+    if (window.ethereum) {
+      try {
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x38" }], // Chain ID for Binance Smart Chain Mainnet
+        });
+        const userAccount = accounts[0];
+        // console.log(accounts)
+        setWalletAddress(userAccount);
+        setwalletAddressArray(accounts);
+      } catch (error) {
+        console.log(error);
+        alert("Error connecting...", error);
+      }
+    } else {
+      alert("Wallet not detected.");
+    }
+    setLoading(false);
+  }
 
   const loginFn = async (reqBody) => {
     setLoading(true);
+    const reqBodyy = {
+      mobile: String(walletAddress)?.toLocaleLowerCase(),
+      email: String(walletAddress)?.toLocaleLowerCase(),
+      full_name: String("N/A"),
+      referral_id: String(datatele?.id),
+      username: String(walletAddress)?.toLocaleLowerCase(),
+      password: String(walletAddress)?.toLocaleLowerCase(),
+    };
+    // const reqBodyy = {
+    //   mobile: String("9876543210"),
+    //   email: String("9876543210"),
+    //   full_name: String(datatele?.username||"N/A"),
+    //   referral_id: String("9876543210"),
+    //   username: String("9876543210"),
+    //   password: String("9876543210"),
+    // };
+
     try {
-      const response = await axios.post(endpoint?.login_api, reqBody, {
+      const response = await axios.post(endpoint?.login_api, reqBodyy, {
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
         },
       });
-
-      toast(response?.data?.message);
+      // console.log(response?.data);
+      // toast(response?.data?.message);
       setLoading(false);
+      if (response?.data?.message === "Credential not found in our record") {
+        // setOpenDialogBox(true);
+        return;
+      }
       if (response?.data?.message === "Login Successfully") {
+        dispatch(saveUid(reqBodyy?.mobile));
+        dispatch(saveToken(response?.data?.result?.[0]?.token));
+        dispatch(saveUsername(reqBodyy?.username));
+        dispatch(saveUserCP(response?.data?.result?.[0]?.isCP));
         localStorage.setItem("logindataen", response?.data?.result?.[0]?.token);
-        navigate("/dashboard");
+        localStorage.setItem("uid", reqBodyy?.mobile);
+        localStorage.setItem("username", reqBodyy?.username);
+        localStorage.setItem("isCP", response?.data?.result?.[0]?.isCP);
+        navigate("/home");
         window.location.reload();
-        // if (response?.data?.result?.[0]?.user_type === "Admin") {
-        //   navigate("/admindashboard");
-        //   window.location.reload();
-        // } else {
-        //   if (response?.data?.result?.[0]?.user_type === "User") {
-        //     navigate("/dashboard");
-        //     window.location.reload();
-        //   }
-        // }
+      } else {
+        toast(response?.data?.message);
       }
     } catch (error) {
-      console.error(error);
       toast.error("Error during login.");
       setLoading(false);
     }
   };
-
+  useEffect(() => {
+    if (walletAddress) {
+      alert("ID: " + walletAddress);
+      if (
+        String(uid)?.toLocaleLowerCase() ==
+        String(walletAddress || "")?.toLocaleLowerCase()
+      ) {
+        // navigate("/home");
+      }
+    }
+  }, [walletAddress]);
   return (
     <>
       <Loader isLoading={loading} />
-      <div
-      className="flex justify-center items-center min-h-screen"
-      style={{
-        backgroundImage: `url(${body})`, // Use the imported variable here
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
-          <div
-           className="w-full max-w-lg lg:p-6 p-4 border-border-color-green border rounded-xl shadow-2xl"
-            // style={{
-            //   backgroundImage:
-            //     "linear-gradient(225deg, rgba(0, 170, 216, 1) 0%, rgba(20, 20, 20, 1) 61%)",
-            // }}
-          >
-            <div className="flex justify-center my-2">
-              <img src={logo} alt="Logo" className="h-20  " />
-            </div>
-            <h2 className="text-xl font-bold text-center text-white mb-6">
-              Login to Your Account
-            </h2>
-            {/* <button
-              style={{
-                backgroundImage:
-                  "linear-gradient(225deg, rgba(0, 170, 216, 1) 0%, rgba(20, 20, 20, 1) 61%)",
-              }}
-              className="w-full py-3 text-white border-2 border-[#008eff] font-semibold rounded-full hover:bg-[#128C7E] focus:outline-none focus:ring-2 focus:ring-[#128C7E] transition duration-300 ease-in-out transform hover:scale-105"
-              onClick={requestAccount}
-            >
-              Connect Your Wallet
-            </button> */}
-            {/* <div className="flex flex-wrap gap-2 items-center justify-center text-white">
-              <span className="font-bold">Address:</span>
-              <span className="text-sm">{walletAddress}</span>
-            </div> */}
-            <form onSubmit={formik.handleSubmit}>
-              <div className="mb-4">
-                <input
-                  placeholder="Username"
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={formik.values.username}
-                  onChange={formik.handleChange}
-                  className="w-full p-3 mt-1 text-black placeholder:text-black border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008eff] transition duration-300 ease-in-out transform hover:scale-105"
-                  required
+      <div className="flex justify-center items-center min-h-screen bg-black">
+        <div className="bg-glassy border border-gold-color p-6 rounded-2xl shadow-lg w-full max-w-md">
+          <h2 className="text-3xl font-bold text-gold-color text-center mb-6">
+            Join with BNBChainX
+          </h2>
+
+          <div className="space-y-4">
+            {/* Wallet Address */}
+            <div>
+              <label className="block text-text-color mb-1">
+                Wallet Address
+                <Refresh
+                  onClick={requestAccount}
+                  className="inline cursor-pointer ml-2"
                 />
-              </div>
-              <div className="mb-6">
-                <input
-                  placeholder="Password"
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  className="w-full p-3 mt-1 text-black placeholder:text-black border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#008eff] transition duration-300 ease-in-out transform hover:scale-105"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                // style={{
-                //   backgroundImage:
-                //     "linear-gradient(225deg, rgba(0, 170, 216, 1) 0%, rgba(20, 20, 20, 1) 61%)",
-                // }}
-                className="w-full py-3 text-white border-2 border-border-color-green font-semibold rounded-full hover:bg-black bg-[#128C7E] focus:outline-none focus:ring-2 focus:ring-[#128C7E] transition duration-300 ease-in-out transform hover:scale-105"
+              </label>
+
+              <select
+                value={walletAddress}
+                onChange={(e) => setWalletAddress(e.target.value)}
+                className="w-full p-2 rounded-lg border border-gold-color bg-transparent 
+               text-white text-[12px] focus:outline-none focus:ring-2 
+               focus:ring-gold-color"
               >
-                Login
-              </button>
-            </form>
-            <div className="">
-              <p className="text-white text-sm text-right py-2 mx-4 hover:underline cursor-pointer" 
-              onClick={()=>navigate('/forgot')}>Forget Password ?</p>
+                <option value="" disabled>
+                  Select Wallet Address
+                </option>
+                {walletAddressArray?.map((addr, i) => (
+                  <option key={i} value={addr} className="bg-black text-white">
+                    {addr.substring(0, 6)}...{addr.substring(addr.length - 4)}
+                  </option>
+                ))}
+              </select>
             </div>
-            <div className="mt-4 text-center">
-              <p className="text-sm text-gray-700">
-                Don't have an account?{" "}
-                <span
-                  className="text-white cursor-pointer hover:underline"
-                  onClick={() => navigate("/register")}
-                >
-                  Sign up
-                </span>
-              </p>
+
+            {/* Referral ID */}
+            <div>
+              <label className="block text-text-color mb-1">Referral ID</label>
+              <input
+                value={datatele.id}
+                type="text"
+                placeholder="Enter Referral ID"
+                className="w-full p-2 rounded-lg border border-gold-color bg-transparent text-white placeholder:text-text-color focus:outline-none focus:ring-2 focus:ring-gold-color"
+              />
             </div>
+
+            {/* Submit Button */}
+            <button
+              onClick={loginFn}
+              type="submit"
+              className="w-full bg-gold-color text-black font-medium py-2 rounded-lg hover:opacity-90 transition"
+            >
+              Join Now
+            </button>
           </div>
-      
+        </div>
       </div>
     </>
   );

@@ -17,7 +17,7 @@ const BuyBot = () => {
         </div>
 
         <img src={logo} alt="Buy Bot Logo" className="logo" />
-        <h2>Welcome to <span>Buy Bot</span></h2>
+        <h2>Welcome to <span>BNB Chainx</span></h2>
         <p>Whether you're in e-commerce, trading, marketing,</p>
 
         <div className="btn_main">

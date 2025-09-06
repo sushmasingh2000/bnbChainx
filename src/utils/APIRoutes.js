@@ -1,11 +1,11 @@
 // export const domain = 'http://192.168.18.214:9033';
-export const domain = 'https://buybot.club';
+export const domain = 'https://backend.fastro.info';
 export const frontend = 'https://buybot.club';
 export const dollar = "$"
 
 export const endpoint = {
   registration_api: `${domain}/api/v1/auth-registration`,
-  login_api: `${domain}/api/v1/auth-login`,
+  login_api: `${domain}/api/v4/user-login`,
   dashboard_data: `${domain}/api/v1/user-dashboard`,
   profile_api: `${domain}/api/v1/user-details`,
   roi_income_api: `${domain}/api/v1/user-income-report`,

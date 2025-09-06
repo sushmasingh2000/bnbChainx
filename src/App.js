@@ -13,6 +13,7 @@ import AdminLayout from "./Adminpages/Layout";
 import LogIn from "./Adminpages/Authentication/Login";
 import ForgotPassword from "./authentication/Forgotpassword";
 import Dashboard from "./dashboard/Dashboard";
+import Home from "./Welcome";
 
 const App = () => {
   const user = localStorage.getItem("logindataen");
@@ -22,6 +23,7 @@ const App = () => {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<BuyBot />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Registration />} />
         <Route path="/forgot" element={<ForgotPassword />} />
