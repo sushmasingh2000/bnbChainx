@@ -15,31 +15,34 @@ import { useQuery } from "react-query";
 import { apiConnectorGet } from "../utils/APIConnector";
 import { endpoint, frontend } from "../utils/APIRoutes";
 import Account from "./pages/Account";
-import CappingPieChart from "./pages/CappingChart";
 
 const Dashboard = () => {
-
-  const { data } = useQuery(
-    ["get_dashboard"],
-    () => apiConnectorGet(endpoint?.dashboard_data),
+  const {  data: dashboard_Api } = useQuery(
+    ["dashboard_api"],
+    () => apiConnectorGet(endpoint?.user_dashboard_api),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
+      retry: false,
+      retryOnMount: false,
       refetchOnWindowFocus: false,
     }
   );
-  const dashboard = data?.data?.result;
+  const dashboard = dashboard_Api?.data?.result || [];
 
-  const { data: profile } = useQuery(
-    ["get_profile"],
+  const { data: profile_data } = useQuery(
+    ["profile_api"],
     () => apiConnectorGet(endpoint?.profile_api),
     {
       refetchOnMount: false,
       refetchOnReconnect: false,
+      retry: false,
+      retryOnMount: false,
       refetchOnWindowFocus: false,
     }
   );
-  const user_profile = profile?.data?.result;
+  const user_profile = profile_data?.data?.result?.[0] || [];
+
   const Row = ({ label, value, highlight = false, color = "text-yellow-400" }) => (
     <div className="flex justify-between pb-1">
       <span className="text-white">{label}</span>
@@ -47,23 +50,26 @@ const Dashboard = () => {
     </div>
   );
   const statCards = [
-    { title: "Main Wallet", value: Number(user_profile?.or_m_income_wallet || 0)?.toFixed(2), icon: <FaWallet /> },
-    { title: "Fund Wallet", value: Number(user_profile?.or_m_fund_wallet || 0)?.toFixed(2), icon: <FaChartLine /> },
-    { title: "Sponsor Income", value: Number(dashboard?.directinc || 0)?.toFixed(2), icon: <FaDollarSign /> },
-    { title: "Level Income", value: Number(dashboard?.levelinc || 0)?.toFixed(2), icon: <FaChartLine /> },
-    { title: "ROI Income", value: Number(dashboard?.satcking_bonus || 0)?.toFixed(2), icon: <FaRocket /> },
-    { title: "Total Income", value: Number(user_profile?.or_m_total_income || 0)?.toFixed(2), icon: <FaDollarSign /> },
-    { title: "Total Team", value: Number(dashboard?.tot_left || 0)?.toFixed(2), icon: <FaUsers /> },
-    { title: "Total Team Business", value: Number(dashboard?.tot_left_t || 0)?.toFixed(2), icon: <FaSitemap /> },
-    { title: "Direct / Referral", value: Number(dashboard?.tot_d_left || 0)?.toFixed(2), icon: <FaUserFriends /> },
-    { title: "Total Direct Business", value: Number(dashboard?.tot_d_left_t || 0)?.toFixed(2), icon: <FaUserFriends /> },
-    { title: "Withdrawal", value: Number(dashboard?.withdrawal || 0)?.toFixed(2), icon: <FaUserFriends /> },
-    { title: "Withdrawal Pending", value: Number(dashboard?.withdrawal_pending || 0)?.toFixed(2), icon: <FaUserFriends /> },
+    { title: "Main Wallet", value: Number(user_profile?.jnr_curr_wallet || 0)?.toFixed(2), icon: <FaWallet /> },
+    { title: "Fund Wallet", value: Number(user_profile?.topup_amount || 0)?.toFixed(2), icon: <FaChartLine /> },
+    { title: "Direct Income", value: Number(dashboard?.direct || 0)?.toFixed(2), icon: <FaDollarSign /> },
+    { title: "Level Income", value: Number(dashboard?.level || 0)?.toFixed(2), icon: <FaChartLine /> },
+    { title: "ROI Income", value: Number(dashboard?.roi_income || 0)?.toFixed(2), icon: <FaRocket /> },
+    { title: "Total Income", value: Number(user_profile?.total_income || 0)?.toFixed(2), icon: <FaDollarSign /> },
+    // { title: "Total Team", value: Number(dashboard?.tot_left || 0)?.toFixed(2), icon: <FaUsers /> },
+    // { title: "Total Team Business", value: Number(dashboard?.tot_left_t || 0)?.toFixed(2), icon: <FaSitemap /> },
+    // { title: "Direct / Referral", value: Number(dashboard?.tot_d_left || 0)?.toFixed(2), icon: <FaUserFriends /> },
+    // { title: "Total Direct Business", value: Number(dashboard?.tot_d_left_t || 0)?.toFixed(2), icon: <FaUserFriends /> },
+    // { title: "Withdrawal", value: Number(dashboard?.withdrawal || 0)?.toFixed(2), icon: <FaUserFriends /> },
+    // { title: "Withdrawal Pending", value: Number(dashboard?.withdrawal_pending || 0)?.toFixed(2), icon: <FaUserFriends /> },
   ];
   const functionTOCopy = (value) => {
     copy(value);
     toast.success("Copied to clipboard!", { id: 1 });
   };
+
+  
+
   return (
     <div className="lg:flex h-screen font-sans bg-[#f1f5f9]">
       <main className="flex-1 overflow-y-auto max-h-screen example">
@@ -74,10 +80,10 @@ const Dashboard = () => {
             </h2>
             <div className="flex items-center justify-between bg-gold-color text-black p-2 rounded">
               <span className="text-sm overflow-x-auto">
-                {frontend}/register?referral_id={user_profile?.Login_Id}
+                {frontend + `?startapp=${user_profile?.lgn_cust_id}`}
               </span>
               <button
-                onClick={() => functionTOCopy(frontend + "/register?referral_id=" + user_profile?.Login_Id)}
+                onClick={() => functionTOCopy(frontend + "?startapp=" + user_profile?.lgn_cust_id)}
                 className="bg-dark-color text-white px-2 py-1 rounded text-sm">Copy</button>
             </div>
             <div className="flex space-x-4 mt-3 text-xl">
@@ -90,18 +96,13 @@ const Dashboard = () => {
           </div>
 
           <div className="w-full md:w-[calc(50%-0.5rem)] bg-[#1e293b] text-white p-4 rounded shadow">
-            <Row label="Email" value={user_profile?.Email} highlight />
-            <Row label="Mobile No" value={user_profile?.Mobile_No} highlight color="text-green-400" />
-            <Row label="Activation Date" value={user_profile?.TOPDATE} highlight color="text-green-400" />
+            <Row label="Wallet Address" value={user_profile?.lgn_email} highlight />
+            <Row label="Customer Id" value={user_profile?.lgn_cust_id} highlight color="text-green-400" />
+            <Row label="Activation Date" value={user_profile?.topup_date} highlight color="text-green-400" />
             <Row
               label="TopUp Amount"
               value={
-                user_profile?.or_m_topup_type === "Real Topup"
-                  ? `$ ${user_profile?.Topup_amt}`
-                  : user_profile?.or_m_topup_type === "Special Topup" ?
-                    "Special Topup"
-                    : user_profile?.or_m_topup_type === "Not Topup" &&
-                    " ---"
+                user_profile?.topup_amount
               }
               highlight
               color="text-green-400"
@@ -125,7 +126,7 @@ const Dashboard = () => {
           ))}
         </div>
         <div className="flex items-center justify-between">
-          <Account />
+          {/* <Account /> */}
           {/* <CappingPieChart/> */}
         </div>
       </main>

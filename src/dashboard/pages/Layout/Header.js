@@ -36,7 +36,7 @@ const Header = () => {
         <div className="flex justify-between lg:px-20 text-sm text-white">
           <div className="flex p-2 items-center ">
             <img src={fastroLogo} alt="fastroLogo" className="!w-1/2" />
-            <div className="hidden lg:flex gap-10">
+            {/* <div className="hidden lg:flex gap-10">
               <p
                 className="cursor-pointer"
                 onClick={() => {
@@ -60,15 +60,15 @@ const Header = () => {
               >
                 Contact Us
               </p>
-            </div>
+            </div> */}
           </div>
 
           {/* Login/SignUp Links */}
           <div className="hidden lg:flex justify-center items-center gap-10">
-            <p className="cursor-pointer" onClick={() => navigate("/login")}>
+            {/* <p className="cursor-pointer" onClick={() => navigate("/login")}>
               UID: {uid?.substring(0, 15)}
               <i className="fas fa-arrow-circle-right uk-margin-small-left" />
-            </p>
+            </p> */}
             <p className="cursor-pointer" onClick={() => navigate("/register")}>
               User: {username?.substring(0, 15)}
               <i className="fas fa-arrow-circle-right uk-margin-small-left" />

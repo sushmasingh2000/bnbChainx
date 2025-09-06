@@ -22,7 +22,7 @@ const Profile = () => {
             refetchOnWindowFocus: false,
         }
     );
-    const user_profile = profile?.data?.result || {}; // Changed to empty object for safer access
+    const user_profile = profile?.data?.result?.[0] || []; // Changed to empty object for safer access
 
     // Formik for Wallet Address
     const fkWallet = useFormik({ // Renamed from fk to fkWallet
@@ -124,7 +124,7 @@ const Profile = () => {
     return (
         <>
             <div className=" bg-gray-900 rounded-xl lg:mt-8 text-gray-100 p-6">
-                <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="max-w-6xl mx-auto grid grid-cols-1  gap-8">
 
                     <div className="bg-gray-800 p-3 rounded-lg shadow-lg">
                         <div className="flex flex-col items-center mb-6">
@@ -135,39 +135,36 @@ const Profile = () => {
                         <div className="space-y-3 text-sm text-gray-300">
                             <div className="flex justify-between py-1 border-b border-gray-700">
                                 <span>Registration Date:</span>
-                                <span className="text-gray-100">{user_profile?.Joining_Date_1 || "--"}</span>
+                                <span className="text-gray-100">{user_profile?.jnr_created_at || "--"}</span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-gray-700">
                                 <span>Activation Date:</span>
-                                <span className="text-gray-100">{user_profile?.TOPDATE ? moment(user_profile?.TOPDATE)?.format("DD-MM-YYYY") : "--"}</span>
+                                <span className="text-gray-100">{user_profile?.jnr_topup_date ? moment(user_profile?.jnr_topup_date)?.format("DD-MM-YYYY") : "--"}</span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-gray-700">
                                 <span>Name:</span>
-                                <span className="text-gray-100">{user_profile?.Associate_Name || "--"}</span>
+                                <span className="text-gray-100">{user_profile?.lgn_real_name || "--"}</span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-gray-700">
-                                <span>Email Id:</span>
-                                <span className="text-gray-100">{user_profile?.Email || "--"}</span>
+                                <span>Wallet Address:</span>
+                                <span className="text-gray-100">{user_profile?.lgn_mobile || "--"}</span>
                             </div>
-                            <div className="flex justify-between py-1 border-b border-gray-700">
-                                <span>Mobile Number:</span>
-                                <span className="text-gray-100">{user_profile?.Mobile_No || "--"}</span>
-                            </div>
+                          
 
                             <div className="flex justify-between py-1 border-b border-gray-700">
                                 <span>ID:</span>
-                                <span className="text-gray-100">{user_profile?.Login_Id || "--"}</span>
+                                <span className="text-gray-100">{user_profile?.lgn_cust_id || "--"}</span>
                             </div>
-                            <div className="flex justify-between py-1">
+                            {/* <div className="flex justify-between py-1">
                                 <span>Account Status:</span>
                                 <span className={`font-medium ${user_profile?.or_m_status === 1 ? "text-green-400" : "text-red-400"}`}>
                                     {user_profile?.or_m_status === 1 ? "Active" : "Deactive"}
                                 </span>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
 
-                    <div className="bg-gray-800 h-fit p-3 rounded-lg shadow-lg">
+                    {/* <div className="bg-gray-800 h-fit p-3 rounded-lg shadow-lg">
                         <div className="flex flex-col items-center mb-6">
                             <img src={bit} alt="Coin Icon" className="w-16 h-16 mb-3" />
                             <h2 className="text-lg font-semibold text-white">Password & Crypto Address</h2>
@@ -190,7 +187,7 @@ const Profile = () => {
                             </div>
                         ))}
 
-                    </div>
+                    </div> */}
 
                 </div>
 

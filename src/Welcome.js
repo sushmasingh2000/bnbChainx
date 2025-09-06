@@ -14,7 +14,7 @@ function Home() {
       <Header />
 
       <div
-        className="relative w-full h-[100vh] flex items-center justify-center text-center"
+        className="relative w-full h-[100vh] flex items-center justify-center text-center mt-20"
         style={{
           backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(17,16,34,0.95)), url('https://t4.ftcdn.net/jpg/05/64/88/01/240_F_564880179_f8V4ZyluTjcLUFqSFr24UMdD7Ip0tdU1.jpg')`,
           backgroundSize: "cover",

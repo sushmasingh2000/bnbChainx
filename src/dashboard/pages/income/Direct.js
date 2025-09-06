@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-import { apiConnectorPost } from '../../../utils/APIConnector';
+import { apiConnectorGet, apiConnectorPost } from '../../../utils/APIConnector';
 import { endpoint } from '../../../utils/APIRoutes';
 import CustomTable from '../../../Shared/CustomTable';
 import CustomToPagination from '../../../Shared/Pagination';
@@ -22,23 +22,18 @@ const Direct = () => {
     enableReinitialize: true,
 
   })
-  const { data, isLoading } = useQuery(
-    ['get_direct', fk.values.search, fk.values.start_date, fk.values.end_date, page],
+  const { isLoading, data } = useQuery(
+    ["direct_income_api", page],
     () =>
-      apiConnectorPost(endpoint?.roi_income_api, {
-        income_Type: 'Direct Income',
-        search: fk.values.search,
-        start_date: fk.values.start_date,
-        end_date: fk.values.end_date,
-        pageNumber: page,
-        pageSize: "10",
-      }),
+      apiConnectorGet(
+`        ${endpoint?.roi_income_api}?income_type=DIRECT&page=${page}`
+      ),
     {
-      keepPreviousData: true,
       refetchOnMount: false,
       refetchOnReconnect: false,
+      retry: false,
+      retryOnMount: false,
       refetchOnWindowFocus: false,
-      onError: (err) => console.error("Error fetching direct data:", err),
     }
   );
 

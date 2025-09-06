@@ -41,8 +41,15 @@ const Sidebar = () => {
                 { title: "Direct Income", path: "/income/direct" },
             ],
         },
-       
-        { title: "Activation", icon: <FaCheck />, path: "/activation" },
+    //    { title: "Wallet", icon: <FaWallet />, path: "/wallet" },
+         {
+            title: "Activation",
+            icon: <FaMoneyBillWave />,
+            subItems: [
+                { title: "Activation", path: "/activation" },
+                { title: "TopUp", path: "/topup_data" }
+            ],
+        },
         {
             title: "Network",
             icon: <FaNetworkWired />,
@@ -54,14 +61,14 @@ const Sidebar = () => {
         },
 
         // { title: "Wallet", icon: <FaWallet />, path: "/wallet" },
-         {
-            title: "Fund",
-            icon: <FaMoneyBillWave />,
-            subItems: [
-                { title: "Fund Request", path: "/fund" },
-                { title: "Transfer", path: "/fund-tranfer" }
-            ],
-        },
+        //  {
+        //     title: "Fund",
+        //     icon: <FaMoneyBillWave />,
+        //     subItems: [
+        //         { title: "Fund Request", path: "/fund" },
+        //         { title: "Transfer", path: "/fund-tranfer" }
+        //     ],
+        // },
         { title: "Payout", icon: <FaExchangeAlt />, path: "/withdrawal" },
         { title: "Profile Settings", icon: <FaUserCog />, path: "/profile" },
         // { title: "Support", icon: <FaHeadset />, path: "/dashboard" },
@@ -82,7 +89,7 @@ const Sidebar = () => {
           refetchOnWindowFocus: false,
         }
       );
-      const user_profile = profile?.data?.result || 0 ;
+      const user_profile = profile?.data?.result?.[0] || [];
 
     return (
         <>
