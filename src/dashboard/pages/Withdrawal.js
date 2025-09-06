@@ -149,7 +149,7 @@ const Withdrawal = () => {
                     <div className="flex justify-start space-x-4 pt-4">
                         <button
                             type="submit"
-                            className="px-8 py-3 rounded-md bg-green-500 text-gray-900 font-semibold hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+                            className="px-8 py-3 rounded-md bg-green-500 text-gray-900 font-semibold hover:bg-gold-color focus:outline-none focus:ring-2 focus:ring-green-500"
                             onClick={fk.handleSubmit} >
                             Submit
                         </button>

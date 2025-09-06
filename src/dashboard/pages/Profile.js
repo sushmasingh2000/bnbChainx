@@ -178,7 +178,7 @@ const Profile = () => {
                             <div key={index} className={`flex justify-between items-center py-2 ${index < 2 ? "border-b border-gray-700" : ""}`}>
                                 <span className="text-gray-300">{label}:</span>
                                 <button
-                                    className="bg-gold-color hover:bg-green-600 text-gray-900 font-semibold py-1.5 px-4 rounded text-xs"
+                                    className="bg-gold-color hover:bg-gold-color text-gray-900 font-semibold py-1.5 px-4 rounded text-xs"
                                     onClick={() => {
                                         if (label === "Update Wallet Address") setShowWalletModal(true);
                                         else if (label === "Update Password") setShowPasswordModal(true);
@@ -225,7 +225,7 @@ const Profile = () => {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-green-500 text-gray-900 font-semibold rounded hover:bg-green-600"
+                                    className="px-4 py-2 bg-gold-color text-gray-900 font-semibold rounded hover:bg-gold-color"
                                     disabled={loding}
                                 >
                                     {loding ? "Saving..." : "Save"}
@@ -275,7 +275,7 @@ const Profile = () => {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-green-500 text-gray-900 font-semibold rounded hover:bg-green-600"
+                                    className="px-4 py-2 bg-green-500 text-gray-900 font-semibold rounded hover:bg-gold-color"
                                     disabled={loding}
                                 >
                                     {loding ? "Saving..." : "Save"}
@@ -370,7 +370,7 @@ const Profile = () => {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-6 py-2 rounded-md font-semibold bg-green-500 text-gray-900 hover:bg-green-600 transition-colors"
+                                    className="px-6 py-2 rounded-md font-semibold bg-green-500 text-gray-900 hover:bg-gold-color transition-colors"
                                     disabled={loding}
                                 >
                                     {loding ? "Saving..." : "Save"}

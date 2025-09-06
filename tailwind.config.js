@@ -8,12 +8,12 @@ module.exports = {
         glow: "0 0 10px #FFD700",
       },
       colors: {
-        "gold-color": "#4ade80",
-        "dark-color": "#2f855a",
+        "gold-color": "#75edf2",
+        "dark-color": "black",
         background: "#ffffff",
-        "text-color": "#4ade80",
+        "text-color": "#75edf2",
         "gray-color": "#f2f0ef",
-        "border-color-green" : "#3dd498"
+        "border-color-green" : "#75edf2"
       },
       backgroundImage: {
         "custom-gradient":

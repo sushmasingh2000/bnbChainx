@@ -132,7 +132,7 @@ const Fund = () => {
 
             <button
               type="submit"
-              className="px-6 py-2 bg-green-500 text-gray-900 font-semibold hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 self-end"
+              className="px-6 py-2 bg-green-500 text-gray-900 font-semibold hover:bg-gold-color focus:outline-none focus:ring-2 focus:ring-green-500 self-end"
             >
               Submit
             </button>
@@ -168,7 +168,7 @@ const Fund = () => {
             <button
               type="button"
               onClick={handleCopyAddress}
-              className="mt-3 px-4 py-1 text-sm bg-green-500 text-black rounded hover:bg-green-600 transition"
+              className="mt-3 px-4 py-1 text-sm bg-green-500 text-black rounded hover:bg-gold-color transition"
             >
               Copy Address
             </button>

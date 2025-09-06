@@ -1,6 +1,6 @@
 // export const domain = 'http://192.168.18.214:9033';
 export const domain = 'https://backend.fastro.info';
-export const frontend = 'https://buybot.club';
+export const frontend = 'https://backend.fastro.info';
 export const dollar = "$"
 
 export const endpoint = {

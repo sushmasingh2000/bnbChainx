@@ -131,7 +131,7 @@ const FundTransfer = () => {
               client.invalidateQueries(["get_direct"]);
             }}
             type="submit"
-            className="bg-green-500 text-gray-900 font-bold py-2 px-4 rounded-full hover:bg-green-600 transition-colors w-full sm:w-auto text-sm" // Adjusted class name for consistency
+            className="bg-green-500 text-gray-900 font-bold py-2 px-4 rounded-full hover:bg-gold-color transition-colors w-full sm:w-auto text-sm" // Adjusted class name for consistency
           >
             Search
           </button>
