@@ -15,6 +15,7 @@ import { useQuery } from "react-query";
 import { apiConnectorGet } from "../utils/APIConnector";
 import { endpoint, frontend } from "../utils/APIRoutes";
 import Account from "./pages/Account";
+import moment from "moment";
 
 const Dashboard = () => {
   const {  data: dashboard_Api } = useQuery(
@@ -98,9 +99,9 @@ const Dashboard = () => {
           <div className="w-full md:w-[calc(50%-0.5rem)] bg-[#1e293b] text-white p-4 rounded shadow">
           <Row label="Wallet Address " highlight />
 
-            <p className="text-green-400 text-sm">{user_profile?.lgn_email}</p>
+            <p className="text-green-400 pb-1 text-[10px]">{user_profile?.lgn_email}</p>
             <Row label="Customer Id" value={user_profile?.lgn_cust_id || "--"} highlight color="text-green-400" />
-            <Row label="Activation Date" value={user_profile?.topup_date || "--"} highlight color="text-green-400" />
+            <Row label="Activation Date" value={moment(user_profile?.topup_date )?.format("DD-MM-YYYY")|| "--"} highlight color="text-green-400" />
             <Row
               label="TopUp Amount"
               value={

@@ -135,7 +135,7 @@ const Profile = () => {
                         <div className="space-y-3 text-sm text-gray-300">
                             <div className="flex justify-between py-1 border-b border-gray-700">
                                 <span>Registration Date:</span>
-                                <span className="text-gray-100">{user_profile?.jnr_created_at || "--"}</span>
+                                <span className="text-gray-100">{moment(user_profile?.jnr_created_at)?.format("DD-MM-YYYY") || "--"}</span>
                             </div>
                             <div className="flex justify-between py-1 border-b border-gray-700">
                                 <span>Activation Date:</span>
@@ -147,7 +147,7 @@ const Profile = () => {
                             </div>
                             <div className="flex flex-col  justify-between py-1 border-b border-gray-700">
                                 <span>Wallet Address:</span>
-                                <span className="text-gray-100 text-sm">{user_profile?.lgn_mobile || "--"}</span>
+                                <span className="text-gray-100 text-[10px]">{user_profile?.lgn_mobile || "--"}</span>
                             </div>
                           
 
