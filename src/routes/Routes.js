@@ -9,6 +9,7 @@ import ROI from '../dashboard/pages/income/ROI';
 import MainLayout from '../dashboard/pages/Layout/MainLayout';
 import Downline from '../dashboard/pages/network/Downline';
 import JoinMember from '../dashboard/pages/network/JoinMember';
+import Payout from '../dashboard/pages/Payout';
 import Profile from '../dashboard/pages/Profile';
 import Team from '../dashboard/pages/TeamTree/Team';
 import ActivationWithFSTAndPull from '../dashboard/pages/Topup/TopuUp';
@@ -19,6 +20,10 @@ export const routes = [
   {
     path: '/dashboard',
     element: ( <MainLayout><Dashboard /> </MainLayout>),
+  },
+  {
+    path: '/with',
+    element: ( <MainLayout><Payout /> </MainLayout>),
   },
   {
     path: '/topup_data',

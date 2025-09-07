@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
-import { apiConnectorPost } from '../../utils/APIConnector';
+import { apiConnectorGet, apiConnectorPost } from '../../utils/APIConnector';
 import { endpoint } from '../../utils/APIRoutes';
 import CustomTable from '../../Shared/CustomTable';
 import CustomToPagination from '../../Shared/Pagination';
@@ -25,10 +25,10 @@ const Activation = () => {
   const { data, isLoading } = useQuery(
     ['get_actiavtion', fk.values.search, fk.values.start_date, fk.values.end_date, page],
     () =>
-      apiConnectorPost(endpoint?.topup_report, {
+      apiConnectorPost(endpoint?.topup_data, {
         search: fk.values.search,
-        start_date: fk.values.start_date,
-        end_date: fk.values.end_date,
+        created_at: fk.values.start_date,
+        updated_at: fk.values.end_date,
         pageNumber: page,
         pageSize: "10",
       }),
@@ -41,14 +41,12 @@ const Activation = () => {
     }
   );
 
-  const allData = data?.data?.result || [];
+  const allData = data?.data?.data || [];
 
   const tablehead = [
     <span>S.No.</span>,
     <span>Date</span>,
-    <span>Invoice</span>,
-    <span>Pkg Amount ($)</span>,
-    <span>Pkg Fee</span>,
+    <span> Amount ($)</span>,
     <span>INC Status</span>
 
 
@@ -56,11 +54,9 @@ const Activation = () => {
   const tablerow = allData?.data?.map((row, index) => {
     return [
       <span> {index + 1}</span>,
-      <span>{moment?.utc(row.tr_date).format("DD-MM-YYYY HH:mm:ss")}</span>,
-      <span>{row.tr_invoice}</span>,
-      <span> {row.m_pack_name}</span>,
-      <span>{row.m_pack_fee}</span>,
-      <span>{row.tr_status}</span>
+      <span>{moment?.utc(row.topup_date).format("DD-MM-YYYY HH:mm:ss")}</span>,
+      <span>{row.topup_pack_amount}</span>,
+      <span>{row.topup_roi_status}</span>
     ];
   });
   return (

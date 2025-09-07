@@ -5,6 +5,7 @@ import { endpoint } from '../../../utils/APIRoutes';
 import CustomTable from '../../../Shared/CustomTable';
 import CustomToPagination from '../../../Shared/Pagination';
 import { useFormik } from 'formik';
+import moment from 'moment';
 
 const Level = () => {
   const [page, setPage] = useState(1)
@@ -37,15 +38,12 @@ const Level = () => {
     }
   );
 
-  const allData = data?.data?.result || [];
+  const allData = data?.data?.data || [];
 
   const tablehead = [
     <span>S.No.</span>,
     <span>Date</span>,
-    <span>Transaction Id</span>,
     <span>Amount ($)</span>,
-    <span>User Name</span>,
-    <span>Email</span>,
     <span>Description</span>,
 
 
@@ -53,12 +51,9 @@ const Level = () => {
   const tablerow = allData?.data?.map((row, index) => {
     return [
       <span> {index + 1}</span>,
-      <span>{row.LEDGER_DATETIME}</span>,
-      <span>{row.TRANS_ID}</span>,
-      <span> {row.LEDGER_CR ? `$${parseFloat(row.LEDGER_CR).toFixed(2)}` : '$0.00'}</span>,
-      <span>{row.LEDGER_NAME}</span>,
-      <span>{row.LEDGER_EMAIL || 'N/A'}</span>,
-      <span>{row.LEDGER_DESC || 'N/A'}</span>,
+      <span>{moment(row.ledger_created_at)?.format("DD-MM-YYYY")}</span>,
+      <span> {row.ledger_amount || '$0.00'}</span>,
+      <span>{row.ledger_des || 'N/A'}</span>,
 
 
     ];

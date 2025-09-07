@@ -9,6 +9,10 @@ export const endpoint = {
   user_dashboard_api: `${domain}/api/v4/user-dashboard-data`,
   general_contact_address_api: `${domain}/api/v4/get-api-general-data`,
   paying_dummy_api: `${domain}/api/v4/activation-dummy-request`,
+  team_data_api: `${domain}/api/v4/get-team-data`,
+  topup_data: `${domain}/api/v4/get-topup-details`,
+
+
   paying_api: `${domain}/api/v4/activation-request`,
   profile_api:` ${domain}/api/v4/get-profile-data`,
   roi_income_api: `${domain}/api/v4/get-roi-income-details`,
@@ -23,7 +27,7 @@ export const endpoint = {
   add_wallet_address: `${domain}/api/v4/add-user-wallet-address`,
   update_user_password: `${domain}/api/v4/update-user-password`,
   add_user_withdrawal: `${domain}/api/v4/user-withdrawal-request`,
-  withdrawal_list: `${domain}/api/v4/withdrawal-report`,
+  withdrawal_list: `${domain}/api/v4/get-withdrawal-details`,
   admin_withdrawal_list: `${domain}/api/v4/admin-withdrawal-report`,
   withdrawal_request: `${domain}/api/v4/withdrawal-request-approval`,
   admin_upload_qr: `${domain}/api/v4/admin-upload-qr`,
@@ -32,6 +36,9 @@ export const endpoint = {
   add_user_fund_request: `${domain}/api/v4/add-user-fund-request`,
   get_user_fund_request: `${domain}/api/v4/get-user-fund-request`,
   admin_paying_report: `${domain}/api/v4/get-admin-fund-request`,
+  withdrawal_api: `${domain}/api/v4/withdrawal-req`,
+  wallet_user_data: `${domain}/api/v4/get-wallet-data-user`,
+  
   change_status_fund: `${domain}/api/v4/change-fund-request_admin`,
   direct_referral_user: `${domain}/api/v4/user-direct-referral-details`,
   team_downline_user: `${domain}/api/v4/user-team-downline-details`,

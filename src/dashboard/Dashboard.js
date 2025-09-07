@@ -96,13 +96,15 @@ const Dashboard = () => {
           </div>
 
           <div className="w-full md:w-[calc(50%-0.5rem)] bg-[#1e293b] text-white p-4 rounded shadow">
-            <Row label="Wallet Address" value={user_profile?.lgn_email} highlight />
-            <Row label="Customer Id" value={user_profile?.lgn_cust_id} highlight color="text-green-400" />
-            <Row label="Activation Date" value={user_profile?.topup_date} highlight color="text-green-400" />
+          <Row label="Wallet Address " highlight />
+
+            <p className="text-green-400 text-sm">{user_profile?.lgn_email}</p>
+            <Row label="Customer Id" value={user_profile?.lgn_cust_id || "--"} highlight color="text-green-400" />
+            <Row label="Activation Date" value={user_profile?.topup_date || "--"} highlight color="text-green-400" />
             <Row
               label="TopUp Amount"
               value={
-                user_profile?.topup_amount
+                user_profile?.topup_amount|| "--"
               }
               highlight
               color="text-green-400"

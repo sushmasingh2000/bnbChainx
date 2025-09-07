@@ -1,16 +1,12 @@
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import { Box, MenuItem, TextField } from "@mui/material";
+import { Box } from "@mui/material";
 import { ethers } from "ethers";
 import { useFormik } from "formik";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
-import { useLocation } from "react-router-dom";
 import Loader from "../../../Shared/Loader";
-import {
-  apiConnectorGetWithoutToken,
-  apiConnectorPostWithdouToken,
-} from "../../../utils/APIConnector";
+import { apiConnectorGet, apiConnectorPost } from "../../../utils/APIConnector";
 import { endpoint } from "../../../utils/APIRoutes";
 import { deCryptData, enCryptData } from "../../../utils/Secret";
 const tokenABI = [
@@ -34,29 +30,24 @@ function ActivationWithFSTAndPull() {
 
   const [gasprice, setGasPrice] = useState("");
   const [loding, setLoding] = useState(false);
-  const location = useLocation();
-  const params = new URLSearchParams(location?.search);
-  const IdParam = params?.get("token");
-  const base64String = IdParam?.trim();
+  // const location = useLocation();
+  // const params = new URLSearchParams(location?.search);
+  // const IdParam = params?.get("token");
+  // const base64String = decr?.trim();
   //  atob(IdParam);
-  const { data: general_address } = useQuery(
-    ["contract_address_api_activation"],
-    () =>
-      apiConnectorGetWithoutToken(
-        endpoint?.general_contact_address_api,
-        {},
-        base64String
-      ),
-    {
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retry: false,
-      retryOnMount: true,
-      refetchOnWindowFocus: true,
-    }
-  );
-  const address = deCryptData(general_address?.data?.result)?.[0] || [];
-  const dollar_percent = 100;
+  // const { data: general_address } = useQuery(
+  //   ["contract_address_api_activation"],
+  //   () => apiConnectorGet(endpoint?.general_contact_address_api),
+  //   {
+  //     refetchOnMount: false,
+  //     refetchOnReconnect: false,
+  //     retry: false,
+  //     retryOnMount: false,
+  //     refetchOnWindowFocus: false,
+  //   }
+  // );
+  // const address = deCryptData(general_address?.data?.result)?.[0] || [];
+  // const dollar_percent = 100;
 
   const fk = useFormik({
     initialValues: {
@@ -99,132 +90,93 @@ function ActivationWithFSTAndPull() {
 
   async function sendTokenTransaction() {
     if (!window.ethereum) return toast("MetaMask not detected");
-    if (!address?.receiving_key) return toast("Please add receiving address.");
-    if (!address?.fst_percent) return toast("Invalid login percentage.");
-    if (!address?.token_price) return toast("Invalid token price.");
-    if (!address?.token_contract_add) return toast("Missing contract address.");
     if (!walletAddress) return toast("Please connect your wallet.");
-    if (!dollar_percent) return toast("Refresh Your Page!");
+    if (
+      Number(fk.values.inr_value) < 5 ||
+      Number(fk.values.inr_value) > 1000
+    ) {
+      toast("Please Enter an amount between $5 and $1000");
+      return;
+    }
 
-    if (!fk.values.inr_value) return toast("Please Enter Amount.");
     try {
       setLoding(true);
 
+      // ✅ Switch to BSC Mainnet
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x38" }], // BSC Mainnet
+        params: [{ chainId: "0x38" }],
       });
 
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const userAddress = await signer.getAddress();
 
-      const usdtDecimals = 18;
-      const fstDecimals = 8;
+      const usdAmount = Number(fk.values.inr_value || 0);
 
-      const fstAmount = 0;
-
-
-      const dummyData = await PayinZpDummy();
-      if (
-        dummyData?.success == false ||
-        !dummyData?.last_id ||
-        Number(dummyData?.last_id) < 1
-      ) {
-        setLoding(false);
-        return alert(dummyData?.message);
+      // ✅ Get latest BNB price (CoinGecko + fallback Binance)
+      async function getBNBPriceInUSDT() {
+        try {
+          const response = await fetch(
+            "https://api.coingecko.com/api/v3/simple/price?ids=binancecoin&vs_currencies=usd"
+          );
+          const data = await response.json();
+          if (data?.binancecoin?.usd) return data.binancecoin.usd;
+        } catch {}
+        const response = await fetch(
+          "https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT"
+        );
+        const data = await response.json();
+        return parseFloat(data.price);
       }
 
-      const last_id = Number(dummyData?.last_id);
+      const bnbPrice = await getBNBPriceInUSDT();
+      const bnbAmount = usdAmount / bnbPrice;
 
-      const usdtAmount = ethers.utils.parseUnits(
-        // String(usdAmount),
-        usdtDecimals
-      );
-      const fstTokenAmount = ethers.utils.parseUnits(
-        String(Number(fstAmount)?.toFixed(5)),
-        fstDecimals
-      );
+      const dummyData = await PayinZpDummy(bnbPrice);
+      if (!dummyData?.success || !dummyData?.last_id) {
+        setLoding(false);
+        return alert(dummyData?.message || "Server error");
+      }
+      const last_id = Number(dummyData.last_id);
 
-      const usdtContract = new ethers.Contract(
-        "0x55d398326f99059fF775485246999027B3197955", // USDT (BEP20)
-        tokenABI,
-        signer
-      );
+      // ✅ Convert to BigNumber
+      const bnbValue = ethers.utils.parseEther(bnbAmount.toFixed(8));
 
-      const fstContract = new ethers.Contract(
-        address.token_contract_add, // ✅ Dynamic FST contract address
-        tokenABI,
-        signer
-      );
-      // 0x32b54cb7512998892e8d3fb45c0115268b58ef7a
+      // ✅ Contract
       const mainContract = new ethers.Contract(
-        "0x70314cee8e304500a148cc7c1f206a6bd127b02c", // Replace with your main contract
-        ["function deposit(uint256,uint256) external"],
+        "0x74e28f9ec75029cc2c106af8cbe5f0d4288f42e3", // your deployed contract
+        ["function deposit() external payable"], // only deposit needed
         signer
       );
 
-      // 🔍 Balance Checks
-      const [usdtBalance, fstBalance, bnbBalance] = await Promise.all([
-        usdtContract.balanceOf(userAddress),
-        fstContract.balanceOf(userAddress),
-        provider.getBalance(userAddress),
-      ]);
-
-      if (usdtBalance.lt(usdtAmount)) {
+      // 🔍 Balance Check
+      const bnbBalance = await provider.getBalance(userAddress);
+      if (bnbBalance.lt(bnbValue)) {
         setLoding(false);
-        return toast("Insufficient USDT balance.");
-      }
-      if (fstBalance.lt(fstTokenAmount)) {
-        setLoding(false);
-        return toast("Insufficient FST balance.");
+        return toast("Insufficient BNB balance.");
       }
 
-      // ✅ Unlimited Allowance Check & Approve USDT
-      const usdtAllowance = await usdtContract.allowance(
-        userAddress,
-        mainContract.address
-      );
-      if (usdtAllowance.lt(usdtAmount)) {
-        const tx = await usdtContract.approve(
-          mainContract.address,
-          ethers.constants.MaxUint256 // 🔥 Unlimited approve
-        );
-        await tx.wait();
-      }
-
-      // ✅ Unlimited Allowance Check & Approve FST
-      const fstAllowance = await fstContract.allowance(
-        userAddress,
-        mainContract.address
-      );
-      if (fstAllowance.lt(fstTokenAmount)) {
-        const tx = await fstContract.approve(
-          mainContract.address,
-          ethers.constants.MaxUint256 // 🔥 Unlimited approve
-        );
-        await tx.wait();
-      }
-
-      // ⛽ Estimate gas
-      const gasEstimate = await mainContract.estimateGas.deposit(
-        usdtAmount,
-        fstTokenAmount
-      );
+      // ⛽ Estimate Gas
+      const gasEstimate = await mainContract.estimateGas.deposit({
+        value: bnbValue,
+      });
       const gasPrice = await provider.getGasPrice();
       const gasCost = gasEstimate.mul(gasPrice);
 
-      if (bnbBalance.lt(gasCost)) {
+      if (bnbBalance.lt(gasCost.add(bnbValue))) {
         setLoding(false);
         return toast(
           `Not enough BNB for gas. Need ~${ethers.utils.formatEther(
             gasCost
-          )} BNB`
+          )} extra BNB`
         );
       }
 
-      // 🚀 Send deposit transaction
-      const tx = await mainContract.deposit(usdtAmount, fstTokenAmount);
+      // 🚀 Send Deposit Transaction
+      const tx = await mainContract.deposit({
+        value: bnbValue,
+      });
       const receipt = await tx.wait();
 
       setTransactionHash(tx.hash);
@@ -236,13 +188,7 @@ function ActivationWithFSTAndPull() {
         toast("Transaction failed!");
       }
 
-      const gasCostInEth = ethers.utils.formatEther(gasCost);
-      await PayinZp(
-        gasCostInEth,
-        tx.hash,
-        receipt.status === 1 ? 2 : 3,
-        last_id
-      );
+      await PayinZp(bnbPrice, tx.hash, receipt.status === 1 ? 2 : 3, last_id);
     } catch (error) {
       console.error(error);
       if (error?.data?.message) {
@@ -250,14 +196,14 @@ function ActivationWithFSTAndPull() {
       } else if (error?.reason) {
         toast(error.reason);
       } else {
-        toast("Token transaction failed.");
+        toast("BNB transaction failed.");
       }
     } finally {
       setLoding(false);
     }
   }
 
-  async function PayinZp(gasPrice, tr_hash, status, id) {
+  async function PayinZp(bnbPrice, tr_hash, status, id) {
     setLoding(true);
 
     const reqbody = {
@@ -267,17 +213,17 @@ function ActivationWithFSTAndPull() {
       u_trans_status: status,
       currentBNB: 0,
       currentZP: no_of_Tokne,
-      gas_price: gasPrice,
-      pkg_id: "",
+      gas_price: bnbPrice,
+      pkg_id: "1",
       last_id: id,
     };
     try {
-      const res = await apiConnectorPostWithdouToken(
+      const res = await apiConnectorPost(
         endpoint?.paying_api,
         {
           payload: enCryptData(reqbody),
-        },
-        base64String
+        }
+        // base64String
       );
       toast(res?.data?.message);
       fk.handleReset();
@@ -287,7 +233,9 @@ function ActivationWithFSTAndPull() {
     setLoding(false);
   }
 
-  async function PayinZpDummy() {
+  async function PayinZpDummy(bnbPrice) {
+    
+    
     const reqbody = {
       req_amount: fk.values.inr_value,
       u_user_wallet_address: walletAddress,
@@ -295,107 +243,101 @@ function ActivationWithFSTAndPull() {
       u_trans_status: 1,
       currentBNB: 0,
       currentZP: no_of_Tokne,
-      gas_price: "",
-      pkg_id: "",
+      gas_price: bnbPrice,
+      pkg_id: "1",
       deposit_type: "Mlm",
     };
 
     try {
-      const res = await apiConnectorPostWithdouToken(
+      const res = await apiConnectorPost(
         endpoint?.paying_dummy_api,
         {
           payload: enCryptData(reqbody),
-        },
-        base64String
+        }
+        // base64String
       );
       return res?.data || {};
     } catch (e) {
       console.log(e);
+      console.log(e);
     }
   }
-
-
 
   return (
     <>
       <Loader isLoading={loding} />
 
-      <div
-        className="flex h-screen overflow-y-scroll flex-col justify-center items-center  p-3"
-        // style={{ backgroundImage: `url(${crypto})` }}
-      >
-        <Box className="!cursor-pointer bg-custom-gradient  lg:!mt-10 !flex !flex-col !justify-center gap-2 lg:w-[30%] w-full p-2 border border-gold-color rounded-lg shadow-2xl">
-          <div className="flex justify-center gap-[10%] items-center mt-1 p-2  w-full border border-gold-color rounded focus:ring-gray-color focus:border-gray-color">
-            <AccountBalanceIcon className="!text-gold-color !text-[80px]" />
-          </div>
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+        <Box className="w-full max-w-md bg-gray-800 p-5 rounded-xl shadow-lg ">
+          {/* Wallet Icon */}
+          {/* <div className="flex justify-center mb-4">
+      <AccountBalanceIcon className="text-gold-color" style={{ fontSize: 60 }} />
+    </div> */}
+
+          {/* Connect Wallet Button */}
           <button
-            className="!bg-gradient-to-tr  from-gold-color to-text-color rounded-full hover:bg-white hover:text-black  p-2 !text-background"
+            className="w-full bg-gradient-to-tr from-gold-color to-pink-500 text-black font-semibold py-2 rounded-full mb-4 hover:bg-white transition"
             onClick={requestAccount}
           >
             Connect Your Wallet
           </button>
-          <div className="m-3 bg-glassy p-4">
-            <div className="flex flex-wrap justify-start items-center">
-              <span className="!font-bold text-gold-color">Address : </span>{" "}
-              <span className="!text-sm !text-gray-color">
+
+          {/* Wallet Info */}
+          <div className="bg-gray-700 p-4 rounded-lg text-sm text-white mb-4 border border-gold-color">
+            <div className="mb-2">
+              <span className="font-semibold text-gold-color">Address: </span>
+              <span className="break-all">
                 {walletAddress?.substring(0, 10)}...
-                {walletAddress?.substring(
-                  walletAddress?.length - 10,
-                  walletAddress?.length
-                )}
+                {walletAddress?.substring(walletAddress?.length - 10)}
               </span>
             </div>
-            <div className="flex flex-wrap justify-start items-center">
-              <span className="!font-bold text-gold-color">User ID : </span>{" "}
-              <span className="!text-sm text-gold-color"> {base64String}</span>
+
+            <p className="font-semibold text-gold-color mt-2 mb-1">
+              Wallet Balance:
+            </p>
+            <div className="flex justify-between mb-1">
+              <span className="text-gold-color font-medium">BNB:</span>
+              <span>{bnb}</span>
             </div>
-            <p className="!font-bold mt-2 text-gold-color">Wallet Balance</p>
-            <div className="flex flex-wrap justify-start items-center">
-              <p className="!font-semibold text-gold-color">BNB : </p>{" "}
-              <p className="!text-gray-color">{bnb}</p>
+            <div className="flex justify-between">
+              <span className="text-gold-color font-medium">USDT (BEP20):</span>
+              <span>{Number(no_of_Tokne || 0)?.toFixed(4)}</span>
             </div>
-            <div className="flex flex-wrap  justify-between">
-              <p className="!font-semibold flex text-gold-color">
-                USDT(BEP20):{" "}
-                <p className="!text-gray-color">
-                  {Number(no_of_Tokne || 0)?.toFixed(4)}
-                </p>
-              </p>
-            </div>
-        
           </div>
-          <TextField
-            placeholder="Enter Amount"
-            id="inr_value"
-            name="inr_value"
-            value={fk.values.inr_value}
-            onChange={fk.handleChange}
-            
-          >
-            
-          </TextField>
 
+          {/* Amount Input */}
+          <div className="mb-4">
+            <input
+              placeholder="Enter Amount"
+              id="inr_value"
+              name="inr_value"
+              value={fk.values.inr_value}
+              onChange={fk.handleChange}
+              className="w-full p-2 text-sm rounded-md bg-gray-700 text-white border border-gold-color focus:ring focus:ring-yellow-300 outline-none"
+            />
+          </div>
 
+          {/* Confirm Button */}
           <button
-            className="!bg-gold-color rounded-full hover:bg-white hover:text-black  p-2 !text-background"
+            className="w-full bg-gold-color text-black font-semibold py-2 rounded-full hover:bg-white transition"
             onClick={sendTokenTransaction}
           >
             Confirm
           </button>
-          <div className="m-3 bg-glassy p-4">
-            <div className=" flex flex-wrap justify-start items-center">
-              <p className="text-gold-color">Transaction Hash : </p>{" "}
-              <p className="!text-[9px] whitespace-break-spaces text-gold-color">
-                {transactionHash}
-              </p>
+
+          {/* Transaction Info */}
+          <div className="bg-gray-700 p-4 mt-4 rounded-lg text-xs text-white border border-gold-color">
+            <div className="mb-2">
+              <p className="font-semibold text-gold-color">Transaction Hash:</p>
+              <p className="break-words">{transactionHash}</p>
             </div>
-            <div className="flex flex-wrap justify-start items-center !gap-4">
-              <p className="text-gold-color">Gas Price : </p>{" "}
-              <p className="!font-bold text-gold-color">{gasprice}</p>
+            <div className="mb-2 flex justify-between">
+              <p className="text-gold-color">Gas Price:</p>
+              <p className="font-semibold">{gasprice}</p>
             </div>
-            <div className="flex flex-wrap justify-start items-center !gap-4">
-              <p className="text-gold-color">Transaction Status : </p>{" "}
-              <p className="!font-bold text-gold-color">{receiptStatus}</p>
+            <div className="flex justify-between">
+              <p className="text-gold-color">Transaction Status:</p>
+              <p className="font-semibold">{receiptStatus}</p>
             </div>
           </div>
         </Box>

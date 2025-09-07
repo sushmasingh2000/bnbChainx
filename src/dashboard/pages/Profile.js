@@ -145,9 +145,9 @@ const Profile = () => {
                                 <span>Name:</span>
                                 <span className="text-gray-100">{user_profile?.lgn_real_name || "--"}</span>
                             </div>
-                            <div className="flex justify-between py-1 border-b border-gray-700">
+                            <div className="flex flex-col  justify-between py-1 border-b border-gray-700">
                                 <span>Wallet Address:</span>
-                                <span className="text-gray-100">{user_profile?.lgn_mobile || "--"}</span>
+                                <span className="text-gray-100 text-sm">{user_profile?.lgn_mobile || "--"}</span>
                             </div>
                           
 

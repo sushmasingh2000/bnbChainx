@@ -55,7 +55,7 @@ const Sidebar = () => {
             icon: <FaNetworkWired />,
             subItems: [
                 { title: "Referral", path: "/referral" },
-                { title: "Level Tree", path: "/team" },
+                // { title: "Level Tree", path: "/team" },
                  { title: "Downline", path: "/downline" },
             ],
         },
@@ -69,6 +69,8 @@ const Sidebar = () => {
         //         { title: "Transfer", path: "/fund-tranfer" }
         //     ],
         // },
+       { title: "Withdrawal", icon: <FaWallet />, path: "/with" },
+
         { title: "Payout", icon: <FaExchangeAlt />, path: "/withdrawal" },
         { title: "Profile Settings", icon: <FaUserCog />, path: "/profile" },
         // { title: "Support", icon: <FaHeadset />, path: "/dashboard" },
@@ -116,8 +118,8 @@ const Sidebar = () => {
                 {/* Mobile Sidebar Header */}
                 <div className="flex items-center justify-between p-4 border-b border-gray-700 lg:hidden">
                     <div className="flex items-center space-x-2 text-xl font-bold">
-                        <span className="bg-gold-color text-black px-2 py-1 font-bold">Buy</span>
-                        <span>Buy Bot</span>
+                        <span className="bg-gold-color text-black px-2 py-1 font-bold">BNB</span>
+                        <span> Chainx</span>
                     </div>
                     <button onClick={() => setShowSidebar(false)} className="text-white text-xl">
                         <FaTimes />
