@@ -267,7 +267,7 @@ function ActivationWithFSTAndPull() {
     <>
       <Loader isLoading={loding} />
 
-      <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
+      <div className="py-10 bg-gray-900 flex items-center justify-center p-4">
         <Box className="w-full max-w-md bg-gray-800 p-5 rounded-xl shadow-lg ">
           {/* Wallet Icon */}
           {/* <div className="flex justify-center mb-4">
@@ -276,23 +276,24 @@ function ActivationWithFSTAndPull() {
 
           {/* Connect Wallet Button */}
           <button
-            className="w-full bg-gradient-to-tr from-gold-color to-pink-500 text-black font-semibold py-2 rounded-full mb-4 hover:bg-white transition"
+            className="w-full bg-gold-color text-black font-semibold py-2 rounded mb-4 hover:bg-white transition"
             onClick={requestAccount}
           >
             Connect Your Wallet
           </button>
 
           {/* Wallet Info */}
-          <div className="bg-gray-700 p-4 rounded-lg text-sm text-white mb-4 border border-gold-color">
+          <div className="bg-gray-700 p-4 rounded-lg text-sm text-white mb-4">
             <div className="mb-2">
-              <span className="font-semibold text-gold-color">Address: </span>
-              <span className="break-all">
+              <p className="font-semibold text-gold-color text-center pb-1">Address</p>
+
+              <p className="break-all text-center">
                 {walletAddress?.substring(0, 10)}...
                 {walletAddress?.substring(walletAddress?.length - 10)}
-              </span>
+              </p>
             </div>
 
-            <p className="font-semibold text-gold-color mt-2 mb-1">
+            {/* <p className="font-semibold text-gold-color mt-2 mb-1">
               Wallet Balance:
             </p>
             <div className="flex justify-between mb-1">
@@ -302,7 +303,7 @@ function ActivationWithFSTAndPull() {
             <div className="flex justify-between">
               <span className="text-gold-color font-medium">USDT (BEP20):</span>
               <span>{Number(no_of_Tokne || 0)?.toFixed(4)}</span>
-            </div>
+            </div> */}
           </div>
 
           {/* Amount Input */}
@@ -313,7 +314,7 @@ function ActivationWithFSTAndPull() {
               name="inr_value"
               value={fk.values.inr_value}
               onChange={fk.handleChange}
-              className="w-full p-2 text-sm rounded-md bg-gray-700 text-white border border-gold-color focus:ring focus:ring-yellow-300 outline-none"
+              className="w-full p-2 text-sm rounded-md bg-gray-700 text-white  focus:ring focus:ring-yellow-300 outline-none"
             />
           </div>
 
@@ -326,7 +327,7 @@ function ActivationWithFSTAndPull() {
           </button>
 
           {/* Transaction Info */}
-          <div className="bg-gray-700 p-4 mt-4 rounded-lg text-xs text-white border border-gold-color">
+          <div className="bg-gray-700 p-4 mt-4 rounded-lg text-xs text-white ">
             <div className="mb-2">
               <p className="font-semibold text-gold-color">Transaction Hash:</p>
               <p className="break-words">{transactionHash}</p>

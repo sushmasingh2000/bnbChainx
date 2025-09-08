@@ -101,7 +101,7 @@ const Dashboard = () => {
 
             <p className="text-green-400 pb-1 text-[10px]">{user_profile?.lgn_email}</p>
             <Row label="Customer Id" value={user_profile?.lgn_cust_id || "--"} highlight color="text-green-400" />
-            <Row label="Activation Date" value={moment(user_profile?.topup_date )?.format("DD-MM-YYYY")|| "--"} highlight color="text-green-400" />
+            <Row label="Activation Date" value={user_profile?.topup_date? moment(user_profile?.topup_date )?.format("DD-MM-YYYY"):"--"} highlight color="text-green-400" />
             <Row
               label="TopUp Amount"
               value={
