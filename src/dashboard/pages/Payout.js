@@ -116,7 +116,7 @@ const user_profile = profile?.data?.result?.[0] || [];
     <div className="min-h-screen bg-gray-900 py-10 px-4">
       <Loader isLoading={loding} />
   
-      <div className="max-w-md mx-auto bg-[#1f2937] rounded-xl shadow-md p-6  ">
+      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md p-6  ">
         {/* Icon */}
         {/* <div className="flex justify-center mb-6">
           <Wallet
@@ -147,7 +147,7 @@ const user_profile = profile?.data?.result?.[0] || [];
   
         {/* Amount Input */}
         <div className="mb-4">
-          <label htmlFor="amount" className="text-sm text-white font-medium mb-1 block">
+          <label htmlFor="amount" className="text-sm  font-medium mb-1 block">
             Amount
           </label>
           <input
@@ -163,7 +163,7 @@ const user_profile = profile?.data?.result?.[0] || [];
   
         {/* Wallet Address Input (read-only) */}
         <div className="mb-4">
-          <label htmlFor="walletAddress" className="text-xs text-white font-medium mb-1 block">
+          <label htmlFor="walletAddress" className="text-xs  font-medium mb-1 block">
             Confirm Wallet Address (BEP20)
           </label>
           <input

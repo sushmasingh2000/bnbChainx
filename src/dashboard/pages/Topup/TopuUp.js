@@ -268,7 +268,7 @@ function ActivationWithFSTAndPull() {
       <Loader isLoading={loding} />
 
       <div className="py-10 bg-gray-900 flex items-center justify-center p-4">
-        <Box className="w-full max-w-md bg-gray-800 p-5 rounded-xl shadow-lg ">
+        <Box className="w-full max-w-md bg-white p-5 rounded-xl shadow-lg ">
           {/* Wallet Icon */}
           {/* <div className="flex justify-center mb-4">
       <AccountBalanceIcon className="text-gold-color" style={{ fontSize: 60 }} />
@@ -327,7 +327,8 @@ function ActivationWithFSTAndPull() {
           </button>
 
           {/* Transaction Info */}
-          <div className="bg-gray-700 p-4 mt-4 rounded-lg text-xs text-white ">
+          {transactionHash &&  (
+            <div className="bg-gray-700 p-4 mt-4 rounded-lg text-xs text-white ">
             <div className="mb-2">
               <p className="font-semibold text-gold-color">Transaction Hash:</p>
               <p className="break-words">{transactionHash}</p>
@@ -341,6 +342,8 @@ function ActivationWithFSTAndPull() {
               <p className="font-semibold">{receiptStatus}</p>
             </div>
           </div>
+          )}
+         
         </Box>
       </div>
     </>

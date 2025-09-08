@@ -142,7 +142,7 @@ const Withdrawal = () => {
               onChange={formik.handleChange}
               className="bg-gray-700 border border-gray-600 rounded-md py-2 px-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto text-sm"
             />
-            <input
+            {/* <input
               type="text"
               name="search"
               id="search"
@@ -150,7 +150,7 @@ const Withdrawal = () => {
               onChange={formik.handleChange}
               placeholder="User ID"
               className="bg-gray-700 border border-gray-600 rounded-full py-2 px-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto text-sm"
-            />
+            /> */}
             <button
               onClick={() => {
                 setPage(1);

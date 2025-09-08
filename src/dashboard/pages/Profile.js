@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { endpoint } from "../../utils/APIRoutes";
 import { apiConnectorGet, apiConnectorPost } from "../../utils/APIConnector";
-import bit from "../../assets/bit.png"
+import bit from "../../assets/favicon.png"
 import { useFormik } from "formik";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
@@ -128,7 +128,7 @@ const Profile = () => {
 
                     <div className="bg-gray-800 p-3 rounded-lg shadow-lg">
                         <div className="flex flex-col items-center mb-6">
-                            <img src={bit} alt="Coin Icon" className="w-16 h-16 mb-3" />
+                            <img src={bit} alt="Coin Icon" className="w-32 h-10 mb-3" />
                             <h2 className="text-lg font-semibold text-white">General Account Information</h2>
                         </div>
 
