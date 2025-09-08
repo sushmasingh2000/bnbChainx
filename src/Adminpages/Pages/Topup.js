@@ -12,7 +12,7 @@ const TopUp = () => {
 
   const initialValues = {
     user_id: "",
-    topup_type: "RealTopup",
+    topup_amnt: "",
   };
 
   const fk = useFormik({
@@ -20,10 +20,8 @@ const TopUp = () => {
     enableReinitialize: true,
     onSubmit: () => {
       const reqbody = {
-        // pack_id: fk.values.topup_type === "special" ? 11000 : 1100, // ✅ set pack_id based on selection
-        pack_id: 1,
         user_id: fk.values.user_id,
-        topup_type: fk.values.topup_type==="RealTopup"? 2 : 3
+        topup_amnt: fk.values.topup_amnt
       };
       TopUpFn(reqbody);
     },
@@ -32,7 +30,7 @@ const TopUp = () => {
   async function TopUpFn(reqbody) {
     try {
       setLoding(true);
-      const res = await apiConnectorPost(endpoint?.admin_fund_memeber, reqbody);
+      const res = await apiConnectorPost(endpoint?.topup_api, reqbody);
       toast(res?.data?.message);
       fk.handleReset();
     } catch (e) {
@@ -70,31 +68,6 @@ const TopUp = () => {
         <p className="!text-center font-bold !py-4 !pb-10 text-lg">Add TopUp</p>
 
         <div className="grid grid-cols-1 gap-[6%] gap-y-4">
-          {/* ✅ Radio Button Group */}
-          <div>
-            <p className="my-2 font-bold">TopUp Type</p>
-            <RadioGroup
-              row
-              name="topup_type"
-              value={fk.values.topup_type}
-              onChange={fk.handleChange}
-            >
-              <FormControlLabel value="RealTopup" control={<Radio />} label="Real TopUp" />
-              <FormControlLabel value="Special Topup" control={<Radio />} label="Special TopUp" />
-            </RadioGroup>
-          </div>
-          <div>
-            <p className="my-2 font-bold">Package Amount</p>
-            <TextField
-              fullWidth
-              id="pack_id"
-              name="pack_id"
-              value="1100"
-              disabled
-            />
-          </div>
-
-          {/* ✅ User ID Input */}
           <div>
             <p>UserID</p>
             <TextField
@@ -104,7 +77,17 @@ const TopUp = () => {
               value={fk.values.user_id}
               onChange={fk.handleChange}
             />
-            <span className="text-red-800 !px-2">{data?.jnr_name}</span>
+            {/* <span className="text-red-800 !px-2">{data?.jnr_name}</span> */}
+          </div>
+           <div>
+            <p>TopUp Amount</p>
+            <TextField
+              fullWidth
+              id="topup_amnt"
+              name="topup_amnt"
+              value={fk.values.topup_amnt}
+              onChange={fk.handleChange}
+            />
           </div>
         </div>
 

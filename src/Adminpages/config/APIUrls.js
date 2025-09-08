@@ -6,9 +6,7 @@ export const API_URLS = {
 
 
   level_bonus_data: `/api/v1/get-roi-income-details-admin`,
-  inr_payout_data: `/api/v1/get-withdrawal-details-admin`,
   topup_data: `/api/v1/get-topup-details-admin`,
-  user_data: `/api/v1/get-user-details-admin`,
 
 
   withdrawl_Request: `/api/v1/inr-payout-request-list`,

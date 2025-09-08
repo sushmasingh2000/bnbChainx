@@ -12,6 +12,7 @@ const UserDetail = () => {
     const initialValues = {
         income_Type: "",
         search: '',
+        page:"",
         pageSize: 10,
         start_date: '',
         end_date: '',
@@ -25,11 +26,11 @@ const UserDetail = () => {
     const { data, isLoading } = useQuery(
         ['get_user_admin', fk.values.search, fk.values.start_date, fk.values.end_date, page],
         () =>
-            apiConnectorPost(endpoint?.admin_user_details, {
+            apiConnectorPost(endpoint?.user_data, {
                 search: fk.values.search,
                 start_date: fk.values.start_date,
                 end_date: fk.values.end_date,
-                pageNumber: page,
+                page: page,
                 pageSize: "10",
             }),
         {
@@ -41,38 +42,30 @@ const UserDetail = () => {
         }
     );
 
-    const allData = data?.data?.result || [];
+    const allData = data?.data?.data || [];
 
     const tablehead = [
         <span>S.No.</span>,
         <span>User ID</span>,
-        <span>User Name</span>,
-        <span>Email</span>,
-        <span>Mobile No</span>,
-        <span>Fund Wallet ($)</span>,
-        <span>Income Wallet ($)</span>,
+        <span>Wallet Address</span>,
+        <span>Wallet</span>,
+        <span>Direct Business</span>,
+        <span>Name</span>,
         <span>TopUp Wallet ($)</span>,
         <span>Topup Date</span>,
-        <span>Password</span>,
-        <span> Status</span>,
-        <span>Join. Date</span>,
 
     ];
 
     const tablerow = allData?.data?.map((row, index) => {
         return [
             <span> {index + 1}</span>,
-            <span>{row.or_m_user_id}</span>,
-            <span>{row.or_m_name}</span>,
-            <span>{row.or_m_email}</span>,
-            <span>{row.or_m_mobile_no}</span>,
-            <span>{row?.or_m_fund_wallet}</span>,
-            <span>{row.or_m_income_wallet}</span>,
-            <span>{row?.or_m_topup_amt}</span>,
-            <span>{row.or_m_topup_date ? moment?.utc(row.or_m_topup_date).format("DD-MM-YYYY") : "--"}</span>,
-            <span>{row?.or_login_pwd}</span>,
-            <span>{row?.or_m_status === 1 ? "Active" : "DeActive"}</span>,
-            <span>{row.or_member_joining_date ? moment?.utc(row.or_member_joining_date).format("DD-MM-YYYY") : "--"}</span>,
+            <span>{row.lgn_cust_id}</span>,
+            <span>{row.lgn_mobile}</span>,
+            <span>{row.jnr_curr_wallet}</span>,
+            <span>{row.jnr_direct_business}</span>,
+            <span>{row?.jnr_name}</span>,
+            <span>{row.jnr_topup_wallet}</span>,
+            <span>{row.jnr_topup_date ? moment?.utc(row.jnr_topup_date).format("DD-MM-YYYY") : "--"}</span>,
         ];
     });
     return (

@@ -5,6 +5,7 @@ import { endpoint } from '../../../utils/APIRoutes';
 import CustomToPagination from '../../../Shared/Pagination';
 import { useFormik } from 'formik';
 import CustomTable from '../../Shared/CustomTable';
+import moment from 'moment';
 const Level = () => {
   const [page, setPage] = useState(1)
   const client = useQueryClient();
@@ -24,7 +25,7 @@ const Level = () => {
   const { data, isLoading } = useQuery(
     ['get_level_admin', fk.values.search, fk.values.start_date, fk.values.end_date, page],
     () =>
-      apiConnectorPost(endpoint?.admin_roi_income_api, {
+      apiConnectorPost(endpoint?.level_bonus_data, {
         income_Type: 'Level Income',
         search: fk.values.search,
         start_date: fk.values.start_date,
@@ -41,32 +42,32 @@ const Level = () => {
     }
   );
 
-  const allData = data?.data?.result || [];
+  const allData = data?.data?.data || [];
 
-  const tablehead = [
-    <span>S.No.</span>,
-    <span>Date</span>,
-    <span>Transaction Id</span>,
-    <span>Amount ($)</span>,
-    <span>User Name</span>,
-    <span>Email</span>,
-    <span>Description</span>,
-
-
-  ];
-  const tablerow = allData?.data?.map((row, index) => {
-    return [
-      <span> {index + 1}</span>,
-      <span>{row.LEDGER_DATETIME}</span>,
-      <span>{row.TRANS_ID}</span>,
-      <span> {row.LEDGER_CR ? `$${parseFloat(row.LEDGER_CR).toFixed(2)}` : '$0.00'}</span>,
-      <span>{row.LEDGER_NAME}</span>,
-      <span>{row.LEDGER_EMAIL || 'N/A'}</span>,
-      <span>{row.LEDGER_DESC || 'N/A'}</span>,
-
-
+    const tablehead = [
+      <span>S.No.</span>,
+      <span>Date</span>,
+      <span>Customer Id</span>,
+      <span>Current Wallet ($)</span>,
+      <span>TopUp Wallet ($)</span>,
+      <span>Amount ($)</span>,
+      <span>Description</span>,
+  
+  
     ];
-  });
+    const tablerow = allData?.data?.map((row, index) => {
+      return [
+        <span> {index + 1}</span>,
+        <span>{moment(row.ledger_created_at)?.format("DD-MM-YYYY")}</span>,
+        <span>{row.lgn_cust_id}</span>,
+        <span> {row.jnr_curr_wallet ||'$0.00'}</span>,
+        <span>{row.jnr_topup_wallet}</span>,
+        <span>{row.ledger_amount || '0'}</span>,
+        <span>{row.ledger_des || 'N/A'}</span>,
+  
+  
+      ];
+    });
   return (
     <div className="p-2">
       <div className="bg-white bg-opacity-50 rounded-lg shadow-lg p-3 text-white mb-6">

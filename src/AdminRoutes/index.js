@@ -11,6 +11,7 @@ import INRPayout from "../Adminpages/Pages/INRPayment/INRPayout";
 import UserDetail from "../Adminpages/Pages/Team/User";
 import TopUp from "../Adminpages/Pages/Topup";
 import TopUpDetail from "../Adminpages/Pages/TopUP/TopUpDetail";
+import DownlineTeams from "../dashboard/pages/Team/DownlineTeams";
 
 
 export const adminroutes = [ 
@@ -80,6 +81,12 @@ export const adminroutes = [
     path: "/user_detail",
     component: <UserDetail/>,
     navItem: "User Detail",
+  },
+    {
+    id: 43,
+    path: "/down_team",
+    component: <DownlineTeams/>,
+    navItem: "Downline Team",
   },
   {
     id: 44,

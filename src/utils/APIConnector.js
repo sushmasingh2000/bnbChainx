@@ -17,12 +17,12 @@ export const apiConnectorGet = async (endpoint, params) => {
         params: params,
       }
     );
-    // if (response?.data?.msg === "Invalid Token.") {
-    //   toast("Login in another device ", { id: 1 });
-    //   localStorage.clear();
-    //   window.location.href = `${frontend}`;
-    //   return;
-    // }
+    if (response?.data?.msg === "Invalid Token.") {
+      toast("Login in another device ", { id: 1 });
+      localStorage.clear();
+      window.location.href = `${frontend}`;
+      return;
+    }
     return response;
   } catch (e) {
     return {
@@ -41,12 +41,12 @@ export const apiConnectorPost = async (endpoint, reqBody) => {
         },
       }   
     );
-    // if (response?.data?.msg === "Invalid Token.") {
-    //   toast("Login in another device ", { id: 1 });
-    //   localStorage.clear();
-    //   window.location.href = `${frontend}`;
-    //   return;
-    // }
+    if (response?.data?.msg === "Invalid Token.") {
+      toast("Login in another device ", { id: 1 });
+      localStorage.clear();
+      window.location.href = `${frontend}`;
+      return;
+    }
     return response;
   } catch (e) {
     return {
@@ -68,12 +68,12 @@ export const apiConnectorGetWithoutToken = async (endpoint, params, token) => {
         params: params,
       }
     );
-    // if (response?.data?.msg === "Invalid logindataen.") {
-    //   toast("Login in another device ", { id: 1 });
-    //   localStorage.clear();
-    //   window.location.href = `${frontend}`;
-    //   return;
-    // }
+    if (response?.data?.msg === "Invalid logindataen.") {
+      toast("Login in another device ", { id: 1 });
+      localStorage.clear();
+      window.location.href = `${frontend}`;
+      return;
+    }
     return response;
   } catch (e) {
     return {
@@ -93,12 +93,12 @@ export const apiConnectorPostWithdouToken = async (
         Authorization: `Bearer ${token}`,
       },
     });
-    // if (response?.data?.msg === "Invalid logindataen.") {
-    //   toast("Login in another device ", { id: 1 });
-    //   localStorage.clear();
-    //   window.location.href = `${frontend}`;
-    //   return;
-    // }
+    if (response?.data?.msg === "Invalid logindataen.") {
+      toast("Login in another device ", { id: 1 });
+      localStorage.clear();
+      window.location.href = `${frontend}`;
+      return;
+    }
     return response;
   } catch (e) {
     return {

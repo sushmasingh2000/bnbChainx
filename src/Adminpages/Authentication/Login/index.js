@@ -5,6 +5,7 @@ import { API_URLS } from '../../config/APIUrls';
 import axiosInstance from '../../config/axios';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { endpoint } from '../../../utils/APIRoutes';
 
 const LogIn = () => {
   const [loding, setloding] = useState(false);
@@ -29,14 +30,14 @@ const LogIn = () => {
   const loginFunction = async (reqBody) => {
     setloding(true);
     try {
-      const response = await axiosInstance.post(API_URLS.admin_login, reqBody);
+      const response = await axiosInstance.post(endpoint.login_api, reqBody);
       toast(response?.data?.message);
-       if (response?.data?.message === "Login Successfully") {
-        localStorage.setItem("logindataen", response?.data?.result?.[0]?.token);
-        navigate("/admindashboard");
-        window.location.reload();
-        // navigate('/Qrgenerator');
-      }
+        if (response?.data?.message === "Login Successfully") {
+         localStorage.setItem("logindataen", response?.data?.result?.[0]?.token);
+         navigate("/admindashboard");
+         window.location.reload();
+          navigate('/Qrgenerator');
+       }
     } catch (e) {
       console.log(e);
     } finally {

@@ -25,7 +25,7 @@ const Level = () => {
   const { data, isLoading } = useQuery(
     ['get_topup_admin', fk.values.search, fk.values.start_date, fk.values.end_date, page],
     () =>
-      apiConnectorPost(endpoint?.admin_topup_report, {
+      apiConnectorPost(endpoint?.get_topup_api, {
         search: fk.values.search,
         start_date: fk.values.start_date,
         end_date: fk.values.end_date,
@@ -41,29 +41,23 @@ const Level = () => {
     }
   );
 
-  const allData = data?.data?.result || [];
+  const allData = data?.data?.data || [];
 
  const tablehead = [
     <span>S.No.</span>,
     <span>Date</span>,
     <span>User ID</span>,
-    <span>User Name</span>,
-    <span>Invoice</span>,
-    <span>Pkg Amount ($)</span>,
-    <span>Pkg Fee</span>,
-    <span>INC Status</span>
+    <span> Amount ($)</span>,
+    <span>Wallet Address</span>,
   ];
 
   const tablerow = allData?.data?.map((row, index) => {
     return [
       <span> {index + 1}</span>,
-          <span>{moment?.utc(row.tr_date).format("DD-MM-YYYY HH:mm:ss")}</span>,
-          <span>{row.tr_user_id}</span>,
-          <span>{row.or_m_name}</span>,
-          <span>{row.tr_invoice}</span>,
-          <span> {row.m_pack_name}</span>,
-          <span>{row.m_pack_fee}</span>,
-          <span>{row.tr_status}</span>
+          <span>{moment?.(row.ledger_created_at).format("DD-MM-YYYY HH:mm:ss")}</span>,
+          <span>{row.lgn_cust_id}</span>,
+          <span>{row.ledger_amount}</span>,
+          <span> {row.lgn_mobile}</span>,
 
 
     ];

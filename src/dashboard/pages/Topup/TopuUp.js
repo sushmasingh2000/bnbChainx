@@ -279,13 +279,13 @@ function ActivationWithFSTAndPull() {
             className="w-full bg-gold-color text-black font-semibold py-2 rounded mb-4 hover:bg-white transition"
             onClick={requestAccount}
           >
-            Connect Your Wallet
+            Connect With DApp
           </button>
 
           {/* Wallet Info */}
           <div className="bg-gray-700 p-4 rounded-lg text-sm text-white mb-4">
             <div className="mb-2">
-              <p className="font-semibold text-gold-color text-center pb-1">Address</p>
+              <p className="font-semibold text-gold-color text-center pb-1">Associated Wallet</p>
 
               <p className="break-all text-center">
                 {walletAddress?.substring(0, 10)}...
@@ -309,7 +309,7 @@ function ActivationWithFSTAndPull() {
           {/* Amount Input */}
           <div className="mb-4">
             <input
-              placeholder="Enter Amount"
+              placeholder="Enter TopUp Amount"
               id="inr_value"
               name="inr_value"
               value={fk.values.inr_value}
@@ -323,7 +323,7 @@ function ActivationWithFSTAndPull() {
             className="w-full bg-gold-color text-black font-semibold py-2 rounded-full hover:bg-white transition"
             onClick={sendTokenTransaction}
           >
-            Confirm
+            Pay Now
           </button>
 
           {/* Transaction Info */}
@@ -332,10 +332,10 @@ function ActivationWithFSTAndPull() {
               <p className="font-semibold text-gold-color">Transaction Hash:</p>
               <p className="break-words">{transactionHash}</p>
             </div>
-            <div className="mb-2 flex justify-between">
+            {/* <div className="mb-2 flex justify-between">
               <p className="text-gold-color">Gas Price:</p>
               <p className="font-semibold">{gasprice}</p>
-            </div>
+            </div> */}
             <div className="flex justify-between">
               <p className="text-gold-color">Transaction Status:</p>
               <p className="font-semibold">{receiptStatus}</p>

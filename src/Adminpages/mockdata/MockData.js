@@ -1,5 +1,6 @@
 import {
   ColorizeRounded, Compare,
+  DownhillSkiing,
   Games,
   LoginOutlined,
   MonetizationOn,
@@ -36,7 +37,7 @@ export const all_Data = [
     subcomponent: [],
   },
 
- 
+
   // {
   //   id: 2,
   //   navLink: "/player",
@@ -101,7 +102,7 @@ export const all_Data = [
       //     </span>
       //   ),
       // },
-     
+
       // {
       //   id: 8.5,
       //   navLink: "/salarybonus",
@@ -112,7 +113,7 @@ export const all_Data = [
       //     </span>
       //   ),
       // },
-      
+
       {
         id: 8.5,
         navLink: "/giftBonus",
@@ -143,7 +144,7 @@ export const all_Data = [
           </span>
         ),
       },
-    
+
     ],
   },
   // {
@@ -339,28 +340,18 @@ export const all_Data = [
   //     },
   //   ],
   // },
-  {
-    id: 11,
-    navLink: "/inr_Payout",
-    navItem: "Payout",
-    navIcon: (
-      <span>
-        <Games color="#15317E" fontSize="medium" />
-      </span>
-    ),
-    subcomponent: [],
-  },
-   {
-    id: 11,
-    navLink: "/inr_Paying",
-    navItem: "Fund Request",
-    navIcon: (
-      <span>
-        <Games color="#15317E" fontSize="medium" />
-      </span>
-    ),
-    subcomponent: [],
-  },
+
+  //  {
+  //   id: 11,
+  //   navLink: "/inr_Paying",
+  //   navItem: "Fund Request",
+  //   navIcon: (
+  //     <span>
+  //       <Games color="#15317E" fontSize="medium" />
+  //     </span>
+  //   ),
+  //   subcomponent: [],
+  // },
   // {
   //   id: 111,
   //   navLink: "/inr_Pending",
@@ -466,8 +457,8 @@ export const all_Data = [
   //         </span>
   //       ),
   //     },
-     
-   
+
+
 
   //   ],
   // },
@@ -556,6 +547,28 @@ export const all_Data = [
   //   ),
   // },
   {
+    id: 11,
+    navLink: "/inr_Payout",
+    navItem: "Payout",
+    navIcon: (
+      <span>
+        <Games color="#15317E" fontSize="medium" />
+      </span>
+    ),
+    subcomponent: [],
+  },
+  {
+    id: 22.2,
+    navLink: "/down_team",
+    navItem: "Downline Team",
+    navIcon: (
+      <span>
+        <DownhillSkiing color="#15317E" fontSize="medium" />
+      </span>
+    ),
+    subcomponent: [],
+  },
+  {
     id: 31,
     navLink: "/topup",
     navItem: "Top Up",
@@ -577,17 +590,17 @@ export const all_Data = [
     ),
     subcomponent: [],
   },
- {
-    id: 8,
-    navLink: "/admin_fund",
-    navItem: "Upload Qr",
-    navIcon: (
-      <span>
-        <Money color="#15317E" fontSize="medium" />
-      </span>
-    ),
-    subcomponent: [],
-  },
+  //  {
+  //     id: 8,
+  //     navLink: "/admin_fund",
+  //     navItem: "Upload Qr",
+  //     navIcon: (
+  //       <span>
+  //         <Money color="#15317E" fontSize="medium" />
+  //       </span>
+  //     ),
+  //     subcomponent: [],
+  //   },
   {
     id: 14,
     navLink: "/user_detail",
@@ -600,7 +613,7 @@ export const all_Data = [
     subcomponent: [],
   },
 
-  
+
   // {
   //   id: 12,
   //   navLink: "/dashboard",
