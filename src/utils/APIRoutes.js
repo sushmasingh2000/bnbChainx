@@ -1,5 +1,5 @@
-// export const domain = 'http://192.168.18.214:9010';
-export const domain = 'https://backend.fastro.info';
+export const domain = 'http://192.168.18.214:9010';
+// export const domain = 'https://backend.fastro.info';
 export const frontend = 'https://bnbchainx.com';
 export const dollar = "$"
 
@@ -15,7 +15,6 @@ export const endpoint = {
   profile_api: ` ${domain}/api/v4/get-profile-data`,
   roi_income_api: `${domain}/api/v4/get-roi-income-details`,
   admin_roi_income_api: `${domain}/api/v4/admin-income-report`,
-  admin_dashboard: `${domain}/api/v4/admin-dashboard`,
   admin_fund_memeber: `${domain}/api/v4/admin-fund-member-topup`,
   topup_report: `${domain}/api/v4/topup-report`,
   admin_topup_report: `${domain}/api/v4/admin-topup-report`,
@@ -45,6 +44,7 @@ export const endpoint = {
   forgot_email: `${domain}/api/v4/password-on-mail`,
 
   //admin
+  admin_dashboard: `${domain}/api/v4/get-admin-dashboard-data`,
   topup_api: `${domain}/api/v4/admin-topup-id`,
   get_topup_api: `${domain}/api/v4/get-topup-details-admin`,
   user_data: `${domain}/api/v4/get-user-details-admin`,
@@ -52,7 +52,7 @@ export const endpoint = {
    get_downline_team: `${domain}/api/v4/get-downline-team`,
   get_upline_team: `${domain}/api/v4/get-upline-team`,
   inr_payout_data: `${domain}/api/v4/get-withdrawal-details-admin`,
-
+  very_fy_OTP: `${domain}/api/v4/verify-otp`,
 
 
 
