@@ -73,14 +73,14 @@ const DownlineTeams = () => {
   return (
     <div>
       <div className="flex flex-wrap gap-4 p-4 items-center">
-        <TextField
+        {/* <TextField
           fullWidth
           sx={{ maxWidth: { xs: "100%", sm: 250 } }}
           type="search"
           placeholder="Search by user id"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-        />
+        /> */}
 
         <RadioGroup
           value={type}

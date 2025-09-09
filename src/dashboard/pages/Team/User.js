@@ -211,7 +211,7 @@ const UserDetail = () => {
         </div>
 
         {/* User ID Search */}
-        <div className="flex flex-col w-full md:w-64">
+        {/* <div className="flex flex-col w-full md:w-64">
           <span className="text-sm font-semibold mb-1">User ID:</span>
           <TextField
             type="search"
@@ -221,7 +221,7 @@ const UserDetail = () => {
             size="small"
             fullWidth
           />
-        </div>
+        </div> */}
 
         {/* Action Buttons */}
         <div className="flex gap-2 w-full md:w-auto mt-2 md:mt-0">

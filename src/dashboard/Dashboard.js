@@ -1,24 +1,20 @@
 import copy from "copy-to-clipboard";
+import moment from "moment";
 import toast from "react-hot-toast";
 import {
-  FaBell,
   FaChartLine,
   FaDollarSign,
   FaLink,
   FaRocket,
-  FaSitemap,
-  FaUserFriends,
-  FaUsers,
   FaWallet
 } from "react-icons/fa";
 import { useQuery } from "react-query";
+import Loader from "../Shared/Loader";
 import { apiConnectorGet } from "../utils/APIConnector";
 import { endpoint, frontend } from "../utils/APIRoutes";
-import Account from "./pages/Account";
-import moment from "moment";
 
 const Dashboard = () => {
-  const {  data: dashboard_Api } = useQuery(
+  const {  data: dashboard_Api , isLoading } = useQuery(
     ["dashboard_api"],
     () => apiConnectorGet(endpoint?.user_dashboard_api),
     {
@@ -31,7 +27,7 @@ const Dashboard = () => {
   );
   const dashboard = dashboard_Api?.data?.result || [];
 
-  const { data: profile_data } = useQuery(
+  const { data: profile_data  , isLoading:profileloading} = useQuery(
     ["profile_api"],
     () => apiConnectorGet(endpoint?.profile_api),
     {
@@ -57,12 +53,6 @@ const Dashboard = () => {
     { title: "Level Income", value: Number(dashboard?.level || 0)?.toFixed(2), icon: <FaChartLine /> },
     { title: "ROI Income", value: Number(dashboard?.roi_income || 0)?.toFixed(2), icon: <FaRocket /> },
     { title: "Total Income", value: Number(user_profile?.total_income || 0)?.toFixed(2), icon: <FaDollarSign /> },
-    // { title: "Total Team", value: Number(dashboard?.tot_left || 0)?.toFixed(2), icon: <FaUsers /> },
-    // { title: "Total Team Business", value: Number(dashboard?.tot_left_t || 0)?.toFixed(2), icon: <FaSitemap /> },
-    // { title: "Direct / Referral", value: Number(dashboard?.tot_d_left || 0)?.toFixed(2), icon: <FaUserFriends /> },
-    // { title: "Total Direct Business", value: Number(dashboard?.tot_d_left_t || 0)?.toFixed(2), icon: <FaUserFriends /> },
-    // { title: "Withdrawal", value: Number(dashboard?.withdrawal || 0)?.toFixed(2), icon: <FaUserFriends /> },
-    // { title: "Withdrawal Pending", value: Number(dashboard?.withdrawal_pending || 0)?.toFixed(2), icon: <FaUserFriends /> },
   ];
   const functionTOCopy = (value) => {
     copy(value);
@@ -73,6 +63,7 @@ const Dashboard = () => {
 
   return (
     <div className="lg:flex h-screen font-sans bg-[#f1f5f9]">
+      <Loader isLoading={isLoading || profileloading} />
       <main className="flex-1 overflow-y-auto max-h-screen example">
         <div className="flex flex-wrap gap-4 lg:p-6 py-6">
           <div className="w-full md:w-[calc(50%-0.5rem)] bg-[#1e293b] text-white p-4 py-6 rounded shadow">
