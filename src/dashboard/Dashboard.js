@@ -53,7 +53,7 @@ const Dashboard = () => {
     { path:"/income/direct", title: "Upline Income", value: Number(dashboard?.direct || 0)?.toFixed(2), icon: <FaDollarSign /> },
     { path:"/income/level", title: "Level Income", value: Number(dashboard?.level || 0)?.toFixed(2), icon: <FaChartLine /> },
     { path:"/income/roi", title: "ROI Income", value: Number(dashboard?.roi_income || 0)?.toFixed(2), icon: <FaRocket /> },
-    { path:"/income/reward", title: "Reward Bonus", value: Number(dashboard?.roi_income || 0)?.toFixed(2), icon: <FaRocket /> },
+    { path:"/income/reward", title: "Reward Bonus", value: Number(dashboard?.reward_bonus || 0)?.toFixed(2), icon: <FaRocket /> },
     { path:"#",title: "Total Income", value: Number(user_profile?.total_income || 0)?.toFixed(2), icon: <FaDollarSign /> },
   ];
   const functionTOCopy = (value) => {
