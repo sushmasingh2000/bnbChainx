@@ -12,6 +12,7 @@ import { useQuery } from "react-query";
 import Loader from "../Shared/Loader";
 import { apiConnectorGet } from "../utils/APIConnector";
 import { endpoint, frontend } from "../utils/APIRoutes";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const {  data: dashboard_Api , isLoading } = useQuery(
@@ -47,18 +48,20 @@ const Dashboard = () => {
     </div>
   );
   const statCards = [
-    { title: "Main Wallet", value: Number(user_profile?.jnr_curr_wallet || 0)?.toFixed(2), icon: <FaWallet /> },
-    { title: "Fund Wallet", value: Number(user_profile?.topup_amount || 0)?.toFixed(2), icon: <FaChartLine /> },
-    { title: "Upline Bonus", value: Number(dashboard?.direct || 0)?.toFixed(2), icon: <FaDollarSign /> },
-    { title: "Level Income", value: Number(dashboard?.level || 0)?.toFixed(2), icon: <FaChartLine /> },
-    { title: "ROI Income", value: Number(dashboard?.roi_income || 0)?.toFixed(2), icon: <FaRocket /> },
-    { title: "Total Income", value: Number(user_profile?.total_income || 0)?.toFixed(2), icon: <FaDollarSign /> },
+    { path:"#", title: "Main Wallet", value: Number(user_profile?.jnr_curr_wallet || 0)?.toFixed(2), icon: <FaWallet /> },
+    {path:"/activation" , title: "Fund Wallet", value: Number(user_profile?.topup_amount || 0)?.toFixed(2), icon: <FaChartLine /> },
+    { path:"/income/direct", title: "Upline Income", value: Number(dashboard?.direct || 0)?.toFixed(2), icon: <FaDollarSign /> },
+    { path:"/income/level", title: "Level Income", value: Number(dashboard?.level || 0)?.toFixed(2), icon: <FaChartLine /> },
+    { path:"/income/roi", title: "ROI Income", value: Number(dashboard?.roi_income || 0)?.toFixed(2), icon: <FaRocket /> },
+    { path:"/income/reward", title: "Reward Bonus", value: Number(dashboard?.roi_income || 0)?.toFixed(2), icon: <FaRocket /> },
+    { path:"#",title: "Total Income", value: Number(user_profile?.total_income || 0)?.toFixed(2), icon: <FaDollarSign /> },
   ];
   const functionTOCopy = (value) => {
     copy(value);
     toast.success("Copied to clipboard!", { id: 1 });
   };
 
+  const navigate = useNavigate();
   
 
   return (
@@ -110,7 +113,7 @@ const Dashboard = () => {
             <div
               key={i}
               className="bg-gold-color text-black p-6 rounded-xl shadow flex items-center justify-between "
-            >
+           onClick={()=>navigate(card?.path)} >
               <div className="text-2xl">{card.icon}</div>
               <div>
                 <div className="text-sm font-normal">{card.title}</div>
