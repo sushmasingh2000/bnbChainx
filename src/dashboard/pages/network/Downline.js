@@ -12,8 +12,8 @@ const Downline = () => {
     const [limit, setLimit] = useState("");
     const [searchTrigger, setSearchTrigger] = useState(0);
   
-    const { data: team_data } = useQuery(
-      ["team_api", level, searchTrigger],
+    const { data: team_data  , isLoading} = useQuery(
+      ["team_api_referral", level, searchTrigger],
       () =>
         apiConnectorGet(
           `${endpoint?.team_data_api}?level=${limit || level}&page=${page}`
@@ -36,7 +36,7 @@ const Downline = () => {
         <span>Login Id</span>,
         <span>Level</span>,
         <span>TopUp Amount ($)</span>,
-        <span>Last Week Business</span>,
+        // <span>Last Week Business</span>,
         <span>TopUp Date</span>,
     
     
@@ -47,12 +47,13 @@ const Downline = () => {
           <span>{row.lgn_cust_id}</span>,
           <span>{row.level || 'N/A'}</span>,
           <span>{row.jnr_topup_wallet || 'N/A'}</span>,
-          <span>{row.last_week_buss}</span>,
+          // <span>{row.last_week_buss}</span>,
           <span>{row.jnr_topup_date? moment(row.jnr_topup_date)?.format("DD-MM-YYYY") : "--"}</span>,
         ];
       });
     return (
         <div className="p-2">
+      
             <div className="bg-gray-800 rounded-lg shadow-lg p-3 text-white border border-gray-700 mb-6">
                 <h2 className="text-xl font-semibold mb-4 text-gray-200">Downline</h2>
 
@@ -130,6 +131,7 @@ const Downline = () => {
                 <CustomTable
                     tablehead={tablehead}
                     tablerow={tablerow}
+                    isLoading={isLoading}
                 />
                 {/* <CustomToPagination
                     page={page}

@@ -13,7 +13,7 @@ const JoinMember = () => {
   const [searchTrigger, setSearchTrigger] = useState(0);
 
   const { isLoading, data: team_data } = useQuery(
-    ["team_api", level, searchTrigger],
+    ["team_api_downline", level, searchTrigger],
     () =>
       apiConnectorGet(
         `${endpoint?.team_data_api}?level=${limit || level}&page=${page}`
@@ -37,7 +37,7 @@ const JoinMember = () => {
     <span>Login Id</span>,
     <span>Level</span>,
     <span>TopUp Amount ($)</span>,
-    <span>Last Week Business</span>,
+    // <span>Last Week Business</span>,
     <span>TopUp Date</span>,
 
 
@@ -48,7 +48,7 @@ const JoinMember = () => {
       <span>{row.lgn_cust_id}</span>,
       <span>{row.level || 'N/A'}</span>,
       <span>{row.jnr_topup_wallet || 'N/A'}</span>,
-      <span>{row.last_week_buss}</span>,
+      // <span>{row.last_week_buss}</span>,
       <span>{row.jnr_topup_date? moment(row.jnr_topup_date)?.format("DD-MM-YYYY") : "--"}</span>,
     ];
   });
