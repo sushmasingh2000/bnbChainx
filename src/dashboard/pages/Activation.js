@@ -56,7 +56,7 @@ const Activation = () => {
       <span> {index + 1}</span>,
       <span>{moment?.utc(row.topup_date).format("DD-MM-YYYY HH:mm:ss")}</span>,
       <span>{row.topup_pack_amount}</span>,
-      <span>{row.topup_roi_status}</span>
+      <span className={`${row.topup_roi_status === "INCOMPLETE" ? "text-green-500" : "text-rose-500"}`}>{row.topup_roi_status === "INCOMPLETE" ? "Continue" : row.topup_roi_status}</span>
     ];
   });
   return (
