@@ -37,8 +37,8 @@ const Sidebar = () => {
             icon: <FaCoins />,
             subItems: [
                 { title: "Level Income", path: "/income/level" },
-                { title: "Upline Income", path: "/income/roi" },
-                { title: "Direct Income", path: "/income/direct" },
+                { title: "ROI Income", path: "/income/roi" },
+                { title: "Upline Income", path: "/income/direct" },
             ],
         },
     //    { title: "Wallet", icon: <FaWallet />, path: "/wallet" },

@@ -104,7 +104,7 @@ const JoinMember = () => {
                 {data?.length}
               </span>
             </p>
-            <p>
+            {/* <p>
               Last Week Buss:
               <span className="!text-gold-color font-extrabold">
                 {data
@@ -112,7 +112,7 @@ const JoinMember = () => {
                   ?.toFixed(2)}
                 $
               </span>
-            </p>
+            </p> */}
             <p>
               Total Buss:
               <span className="!text-gold-color font-extrabold">

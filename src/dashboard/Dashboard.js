@@ -49,7 +49,7 @@ const Dashboard = () => {
   const statCards = [
     { title: "Main Wallet", value: Number(user_profile?.jnr_curr_wallet || 0)?.toFixed(2), icon: <FaWallet /> },
     { title: "Fund Wallet", value: Number(user_profile?.topup_amount || 0)?.toFixed(2), icon: <FaChartLine /> },
-    { title: "Direct Income", value: Number(dashboard?.direct || 0)?.toFixed(2), icon: <FaDollarSign /> },
+    { title: "Upline Bonus", value: Number(dashboard?.direct || 0)?.toFixed(2), icon: <FaDollarSign /> },
     { title: "Level Income", value: Number(dashboard?.level || 0)?.toFixed(2), icon: <FaChartLine /> },
     { title: "ROI Income", value: Number(dashboard?.roi_income || 0)?.toFixed(2), icon: <FaRocket /> },
     { title: "Total Income", value: Number(user_profile?.total_income || 0)?.toFixed(2), icon: <FaDollarSign /> },
