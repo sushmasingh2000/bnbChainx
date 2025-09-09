@@ -7,7 +7,7 @@ import CustomToPagination from '../../../Shared/Pagination';
 import { useFormik } from 'formik';
 import moment from 'moment';
 
-const Level = () => {
+const Reward = () => {
   const [page, setPage] = useState(1)
   const client = useQueryClient();
   const initialValues = {
@@ -24,10 +24,10 @@ const Level = () => {
 
   })
   const { isLoading, data } = useQuery(
-    ["level_income_api", page],
+    ["reward_income_api", page],
     () =>
       apiConnectorGet(
-`        ${endpoint?.roi_income_api}?income_type=LEVEL&page=${page}`
+`        ${endpoint?.roi_income_api}?income_type=REWARD&page=${page}`
       ),
     {
       refetchOnMount: false,
@@ -61,7 +61,7 @@ const Level = () => {
   return (
     <div className="p-2">
       <div className="bg-gray-800 rounded-lg shadow-lg p-3 text-white border border-gray-700 mb-6">
-        <h2 className="text-xl font-semibold mb-4 text-gray-200">Level Income</h2>
+        <h2 className="text-xl font-semibold mb-4 text-gray-200">Reward Bonus</h2>
 
         <div className="flex flex-col sm:flex-wrap md:flex-row items-center gap-3 sm:gap-4 w-full text-sm sm:text-base">
           <input
@@ -92,7 +92,7 @@ const Level = () => {
           <button
             onClick={() => {
               setPage(1);
-              client.invalidateQueries(["get_level"]);
+              client.invalidateQueries(["get_direct"]);
             }}
             type="submit"
             className="bg-gold-color text-gray-900 font-bold py-2 px-4 rounded-full hover:bg-dark-color transition-colors w-full sm:w-auto text-sm"
@@ -119,8 +119,8 @@ const Level = () => {
           tablerow={tablerow}
           isLoading={isLoading}
         />
-            <div className='flex justify-end py-2 '>Total Income : $ {allData?.totalAmount || 0}</div>
 
+            <div className='flex justify-end py-2 '>Total Income : $ {allData?.totalAmount || 0}</div>
 
         {/* Pagination */}
         <CustomToPagination
@@ -133,4 +133,4 @@ const Level = () => {
   );
 };
 
-export default Level;
+export default Reward;

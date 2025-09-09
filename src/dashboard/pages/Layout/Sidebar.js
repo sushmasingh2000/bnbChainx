@@ -39,6 +39,7 @@ const Sidebar = () => {
                 { title: "Level Income", path: "/income/level" },
                 { title: "ROI Income", path: "/income/roi" },
                 { title: "Upline Income", path: "/income/direct" },
+                { title: "Reward Bonus", path: "/income/reward" },
             ],
         },
     //    { title: "Wallet", icon: <FaWallet />, path: "/wallet" },

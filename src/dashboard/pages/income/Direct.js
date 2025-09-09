@@ -120,6 +120,7 @@ const Direct = () => {
           isLoading={isLoading}
         />
 
+            <div className='flex justify-end py-2 '>Total Income : $ {allData?.totalAmount || 0}</div>
 
         {/* Pagination */}
         <CustomToPagination

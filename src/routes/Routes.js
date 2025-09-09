@@ -5,6 +5,7 @@ import Fund from '../dashboard/pages/Fund/Fund';
 import FundTransfer from '../dashboard/pages/Fund/Transfer';
 import Direct from '../dashboard/pages/income/Direct';
 import Level from '../dashboard/pages/income/Level';
+import Reward from '../dashboard/pages/income/Reward';
 import ROI from '../dashboard/pages/income/ROI';
 import MainLayout from '../dashboard/pages/Layout/MainLayout';
 import Downline from '../dashboard/pages/network/Downline';
@@ -76,6 +77,10 @@ export const routes = [
    {
     path: '/downline',
     element: (<MainLayout><Downline /> </MainLayout>),
+  },
+  {
+    path: '/income/reward',
+    element: (<MainLayout><Reward /> </MainLayout>),
   },
   
 ];
