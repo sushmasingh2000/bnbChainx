@@ -25,7 +25,7 @@ const Dashboard = () => {
       refetchOnWindowFocus: false,
     }
   );
-  const dashboard = dashboard_Api?.data?.result || [];
+  const dashboard = dashboard_Api?.data?.result?.[0] || [];
 
   const { data: profile_data  , isLoading:profileloading} = useQuery(
     ["profile_api"],
