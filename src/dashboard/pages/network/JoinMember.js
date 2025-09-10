@@ -55,7 +55,7 @@ const JoinMember = () => {
   return (
     <div className="p-2">
       <div className="bg-gray-800 rounded-lg shadow-lg p-3 text-white border border-gray-700 mb-6">
-        <h2 className="text-xl font-semibold mb-4 text-gray-200">Referral</h2>
+        <h2 className="text-xl font-semibold mb-4 text-gray-200">My Direct Team</h2>
 
         <div className="mb-6 w-full">
             <p className="text-text-color mb-2">

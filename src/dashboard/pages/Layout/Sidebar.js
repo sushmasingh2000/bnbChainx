@@ -55,9 +55,9 @@ const Sidebar = () => {
             title: "Network",
             icon: <FaNetworkWired />,
             subItems: [
-                { title: "Referral", path: "/referral" },
+                { title: "Direct Team", path: "/referral" },
                 // { title: "Level Tree", path: "/team" },
-                 { title: "Downline", path: "/downline" },
+                 { title: "Downline Team", path: "/downline" },
             ],
         },
 
