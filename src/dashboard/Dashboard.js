@@ -75,10 +75,10 @@ const Dashboard = () => {
             </h2>
             <div className="flex items-center justify-between bg-gold-color text-black p-2 rounded">
               <span className="text-sm overflow-x-auto">
-                {frontend + `?startapp=${user_profile?.lgn_cust_id}`}
+                {frontend + `/login?startapp=${user_profile?.lgn_cust_id}`}
               </span>
               <button
-                onClick={() => functionTOCopy(frontend + "?startapp=" + user_profile?.lgn_cust_id)}
+                onClick={() => functionTOCopy(frontend + "/login?startapp=" + user_profile?.lgn_cust_id)}
                 className="bg-dark-color text-white px-2 py-1 rounded text-sm">Copy</button>
             </div>
             <div className="flex space-x-4 mt-3 text-xl">
