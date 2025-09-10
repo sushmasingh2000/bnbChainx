@@ -102,7 +102,7 @@ const Sidebar = () => {
                     <button className="text-2xl" onClick={() => setShowSidebar(true)}>
                         ☰
                     </button>
-                    <h1 className="text-xl font-semibold">Dashboard</h1>
+                  <img src={logo} alt="" className="w-28" />
                     <div className="flex items-center space-x-2 font-medium">
                         <FaUserFriends />
                         <span>{user_profile?.Associate_Name}</span>

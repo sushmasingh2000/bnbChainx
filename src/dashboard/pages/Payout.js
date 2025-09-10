@@ -185,9 +185,9 @@ const user_profile = profile?.data?.result?.[0] || [];
         </button>
   
         {/* Note */}
-        <div className="text-xs text-red-400 mt-4 p-3 bg-gray-800 rounded-md border border-red-300">
+        {/* <div className="text-xs text-red-400 mt-4 p-3 bg-gray-800 rounded-md border border-red-300">
           <strong>Note:</strong> Please ensure that your wallet address is BEP20 Network (Format: 0x..). You will be responsible for any incorrect entries.
-        </div>
+        </div> */}
       </div>
     </div>
   );
