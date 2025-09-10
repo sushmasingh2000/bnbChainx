@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, MenuItem, Select } from '@mui/material';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
@@ -64,17 +64,17 @@ const Downline = () => {
             </p>
             <div className="flex flex-col md:flex-row items-center gap-4">
               {localStorage.getItem("isCP") === "No" ? (
-                <select
+                <Select
                   value={level}
                   onChange={(e) => handleLevelChange(Number(e.target.value))}
-                  className="px-4 py-2 rounded text-black w-full md:w-1/2 bg-white bg-opacity-50"
+                  className=" rounded text-black w-full md:w-1/2 bg-white bg-opacity-50"
                 >
                   {[...Array(25)].map((_, index) => (
-                    <option key={index} value={index + 1}>
+                    <MenuItem key={index} value={index + 1}>
                       Level {index + 1}
-                    </option>
+                    </MenuItem>
                   ))}
-                </select>
+                </Select>
               ) : (
                 <input
                   type="number"
