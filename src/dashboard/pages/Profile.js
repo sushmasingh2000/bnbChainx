@@ -181,7 +181,7 @@ const Profile = () => {
                                     onClick={() => {
                                         // if (label === "Update Wallet Address") setShowWalletModal(true);
                                         // else if (label === "Update Password") setShowPasswordModal(true);
-                                         if (label === "Update Profile") setShowProfileModal(true); // Open profile modal
+                                         if (label === "Update Profile") setShowProfileModal(true); 
                                     }}
                                 >
                                     Edit
