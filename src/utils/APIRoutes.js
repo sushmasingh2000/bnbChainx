@@ -40,7 +40,7 @@ export const endpoint = {
   direct_referral_user: `${domain}/api/v4/user-direct-referral-details`,
   team_downline_user: `${domain}/api/v4/user-team-downline-details`,
   team_downline_user_filterwise: `${domain}/api/v4/user-team-downline-details-filterwise`,
-  update_user_profile: `${domain}/api/v4/user-update-profile`,
+  update_user_profile: `${domain}/api/v4/update-profile`,
   forgot_email: `${domain}/api/v4/password-on-mail`,
 
   //admin

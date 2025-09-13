@@ -9,11 +9,11 @@ import moment from "moment";
 
 const Profile = () => {
     const [loding, setLoding] = useState(false);
-    const [showWalletModal, setShowWalletModal] = useState(false); // Renamed from showModal to avoid confusion
-    const [showPasswordModal, setShowPasswordModal] = useState(false); // Renamed from showPsw
-    const [showProfileModal, setShowProfileModal] = useState(false); // New state for Update Profile modal
-
-    const { data: profile, refetch: refetchProfile } = useQuery( // Added refetch
+    const [showWalletModal, setShowWalletModal] = useState(false); 
+    const [showPasswordModal, setShowPasswordModal] = useState(false); 
+    const [showProfileModal, setShowProfileModal] = useState(false); 
+    
+    const { data: profile, refetch: refetchProfile } = useQuery( 
         ["get_profile"],
         () => apiConnectorGet(endpoint?.profile_api),
         {
@@ -92,13 +92,15 @@ const Profile = () => {
             name: user_profile?.Associate_Name || "",
             email: user_profile?.Email || "",
             mobile: user_profile?.Mobile_No || "",
+            wallet_address: user_profile?.wallet_Address || "",
         },
         enableReinitialize: true,
         onSubmit: () => {
             const reqbody = {
-                name: fkProfile.values.name,
-                email: fkProfile.values.email,
-                mobile: fkProfile.values.mobile,
+                lgn_real_mob: fkProfile.values.mobile,
+                lgn_real_email: "kjh",
+                lgn_real_name: fkProfile.values.name,
+                lgn_wallet_add:"hu",
             };
             UpdateProfileFn(reqbody);
         },
@@ -124,10 +126,10 @@ const Profile = () => {
     return (
         <>
             <div className=" bg-gray-900 rounded-xl lg:mt-8 text-gray-100 p-6">
-                <div className="max-w-6xl mx-auto grid grid-cols-1  gap-8">
+                <div className="max-w-6xl mx-auto grid grid-cols-2  gap-8">
 
                     <div className="bg-gray-800 p-3 rounded-lg shadow-lg">
-                        <div className="flex flex-col items-center mb-6">
+                        <div className="flex flex-col  items-center mb-6">
                             <img src={bit} alt="Coin Icon" className="w-32 mb-3" />
                             <h2 className="text-lg font-semibold text-white">General Account Information</h2>
                         </div>
@@ -164,22 +166,22 @@ const Profile = () => {
                         </div>
                     </div>
 
-                    {/* <div className="bg-gray-800 h-fit p-3 rounded-lg shadow-lg">
+                    <div className="bg-gray-800 h-fit p-3 rounded-lg shadow-lg">
                         <div className="flex flex-col items-center mb-6">
-                            <img src={bit} alt="Coin Icon" className="w-16 h-16 mb-3" />
+                            <img src={bit} alt="Coin Icon" className="w-32 mb-3" />
                             <h2 className="text-lg font-semibold text-white">Password & Crypto Address</h2>
                             <p className="text-gray-400 text-sm">Manage account settings securely</p>
                         </div>
-
+                       
                         {["Update Profile", "Update Password", "Update Wallet Address"].map((label, index) => (
                             <div key={index} className={`flex justify-between items-center py-2 ${index < 2 ? "border-b border-gray-700" : ""}`}>
                                 <span className="text-gray-300">{label}:</span>
                                 <button
                                     className="bg-gold-color hover:bg-gold-color text-gray-900 font-semibold py-1.5 px-4 rounded text-xs"
                                     onClick={() => {
-                                        if (label === "Update Wallet Address") setShowWalletModal(true);
-                                        else if (label === "Update Password") setShowPasswordModal(true);
-                                        else if (label === "Update Profile") setShowProfileModal(true); // Open profile modal
+                                        // if (label === "Update Wallet Address") setShowWalletModal(true);
+                                        // else if (label === "Update Password") setShowPasswordModal(true);
+                                         if (label === "Update Profile") setShowProfileModal(true); // Open profile modal
                                     }}
                                 >
                                     Edit
@@ -187,7 +189,7 @@ const Profile = () => {
                             </div>
                         ))}
 
-                    </div> */}
+                    </div>
 
                 </div>
 
@@ -315,7 +317,7 @@ const Profile = () => {
                                     onChange={fkProfile.handleChange}
                                 />
                             </div>
-                            <div className="mb-4">
+                            {/* <div className="mb-4">
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
                                     Email <span className="text-red-500">*</span>
                                 </label>
@@ -327,7 +329,7 @@ const Profile = () => {
                                     value={fkProfile.values.email}
                                     onChange={fkProfile.handleChange}
                                 />
-                            </div>
+                            </div> */}
                             <div className="grid grid-cols-2 gap-4 mb-4">
                                 <div>
                                     <label htmlFor="country" className="block text-sm font-medium text-gray-300 mb-1">
