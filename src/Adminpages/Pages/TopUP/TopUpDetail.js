@@ -49,6 +49,7 @@ const Level = () => {
     <span>User ID</span>,
     <span> Amount ($)</span>,
     <span>Wallet Address</span>,
+    <span>Description</span>,
   ];
 
   const tablerow = allData?.data?.map((row, index) => {
@@ -58,6 +59,8 @@ const Level = () => {
           <span>{row.lgn_cust_id}</span>,
           <span>{row.ledger_amount}</span>,
           <span> {row.lgn_mobile}</span>,
+          <span> {row.ledger_des}</span>,
+          
 
 
     ];

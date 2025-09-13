@@ -13,6 +13,7 @@ const TopUp = () => {
   const initialValues = {
     user_id: "",
     topup_amnt: "",
+    topup_desc: "",
   };
 
   const fk = useFormik({
@@ -21,7 +22,8 @@ const TopUp = () => {
     onSubmit: () => {
       const reqbody = {
         user_id: fk.values.user_id,
-        topup_amnt: fk.values.topup_amnt
+        topup_amnt: fk.values.topup_amnt,
+        topup_desc:fk.values.topup_desc
       };
       TopUpFn(reqbody);
     },
@@ -86,6 +88,16 @@ const TopUp = () => {
               id="topup_amnt"
               name="topup_amnt"
               value={fk.values.topup_amnt}
+              onChange={fk.handleChange}
+            />
+          </div>
+           <div>
+            <p> Description</p>
+            <TextField
+              fullWidth
+              id="topup_desc"
+              name="topup_desc"
+              value={fk.values.topup_desc}
               onChange={fk.handleChange}
             />
           </div>
