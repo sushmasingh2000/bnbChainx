@@ -126,7 +126,7 @@ const Profile = () => {
     return (
         <>
             <div className=" bg-gray-900 rounded-xl lg:mt-8 text-gray-100 p-6">
-                <div className="max-w-6xl mx-auto grid grid-cols-2  gap-8">
+                <div className="max-w-6xl mx-auto grid lg:grid-cols-2 grid-cols-1  gap-8">
 
                     <div className="bg-gray-800 p-3 rounded-lg shadow-lg">
                         <div className="flex flex-col  items-center mb-6">
@@ -169,11 +169,11 @@ const Profile = () => {
                     <div className="bg-gray-800 h-fit p-3 rounded-lg shadow-lg">
                         <div className="flex flex-col items-center mb-6">
                             <img src={bit} alt="Coin Icon" className="w-32 mb-3" />
-                            <h2 className="text-lg font-semibold text-white">Password & Crypto Address</h2>
-                            <p className="text-gray-400 text-sm">Manage account settings securely</p>
+                            <h2 className="text-lg font-semibold text-white">Subscriber Profile Setting</h2>
+                            {/* <p className="text-gray-400 text-sm">Manage account settings securely</p> */}
                         </div>
                        
-                        {["Update Profile", "Update Password", "Update Wallet Address"].map((label, index) => (
+                        {["Update Profile"].map((label, index) => (
                             <div key={index} className={`flex justify-between items-center py-2 ${index < 2 ? "border-b border-gray-700" : ""}`}>
                                 <span className="text-gray-300">{label}:</span>
                                 <button
