@@ -73,6 +73,7 @@ const Sidebar = () => {
        { title: "Withdrawal", icon: <FaWallet />, path: "/with" },
 
         { title: "Payout", icon: <FaExchangeAlt />, path: "/withdrawal" },
+        // { title: "ClaimTopUp", icon: <FaExchangeAlt />, path: "/claim_topup" },
         { title: "Profile Settings", icon: <FaUserCog />, path: "/profile" },
         // { title: "Support", icon: <FaHeadset />, path: "/dashboard" },
         {

@@ -42,6 +42,10 @@ export const endpoint = {
   team_downline_user_filterwise: `${domain}/api/v4/user-team-downline-details-filterwise`,
   update_user_profile: `${domain}/api/v4/update-profile`,
   forgot_email: `${domain}/api/v4/password-on-mail`,
+  check_real_transaction: `${domain}/api/v4/check-real-transactoin`,
+  set_withdrawal_limit: `${domain}/api/v4/update-withdrawal-limit`,
+
+  
 
   //admin
   admin_dashboard: `${domain}/api/v4/get-admin-dashboard-data`,

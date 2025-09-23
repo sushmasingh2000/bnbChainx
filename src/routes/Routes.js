@@ -1,6 +1,7 @@
 // src/routes/routes.jsx
 import Dashboard from '../dashboard/Dashboard';
 import Activation from '../dashboard/pages/Activation';
+import ClaimTopUp from '../dashboard/pages/ClaimTopUp';
 import Fund from '../dashboard/pages/Fund/Fund';
 import FundTransfer from '../dashboard/pages/Fund/Transfer';
 import Direct from '../dashboard/pages/income/Direct';
@@ -21,6 +22,10 @@ export const routes = [
   {
     path: '/dashboard',
     element: ( <MainLayout><Dashboard /> </MainLayout>),
+  },
+  {
+    path: '/claim_topup',
+    element: ( <MainLayout><ClaimTopUp /> </MainLayout>),
   },
   {
     path: '/with',

@@ -100,4 +100,6 @@ export const adminroutes = [
     component: <AddAddress/>,
     navItem: "Fund",
   },
+  
+  
 ];
