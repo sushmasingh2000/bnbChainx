@@ -9,8 +9,8 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     config.headers = {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      token: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${localStorage.getItem("logindataen")}`,
+      token: `Bearer ${localStorage.getItem("logindataen")}`,
       ...config.headers,
     };
     return config;
@@ -29,9 +29,9 @@ axiosInstance.interceptors.response.use(
   (response) => {
     if (response?.data?.msg === "Invalid Token.") {
       toast("Logged in on another device.", { id: 1 });
-      localStorage.clear();
-      sessionStorage.clear();
-      window.location.href = `${frontend}`;
+      // localStorage.clear();
+      // sessionStorage.clear();
+      // window.location.href = `${frontend}`;
       return Promise.reject(new Error("Invalid Token."));
     }
     return response;

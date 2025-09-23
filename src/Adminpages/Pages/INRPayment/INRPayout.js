@@ -50,8 +50,6 @@ const INRPayout = () => {
     INRPayoutFunction();
   }, [page]);
 
-    console.log(totalamount)
-  
   async function handleWithdrawalStatus(t_id, status) {
     setloding(true);
     try {
@@ -66,7 +64,6 @@ const INRPayout = () => {
     setloding(false);
   }
 
-
   async function handleWalletSyc(t_id) {
     setloding(true);
     try {
@@ -76,7 +73,7 @@ const INRPayout = () => {
         },
       });
       INRPayoutFunction();
-      toast(res?.data?.message,{id:1});
+      toast(res?.data?.message, { id: 1 });
     } catch (e) {
       console.log("Something went wrong.");
     }
@@ -226,8 +223,8 @@ const INRPayout = () => {
           </Button>
         </div>
         <div className="!font-extrabold">
-          <span>Total Amount:{" "}</span>
-          <span >{totalamount?.sumValue?.total_amount || 0}</span>
+          <span>Total Amount: </span>
+          <span>{totalamount?.sumValue?.total_amount || 0}</span>
         </div>
       </div>
 

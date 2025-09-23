@@ -1,7 +1,7 @@
-// export const domain = 'http://192.168.18.214:9010';
-export const domain = 'https://backend.fastro.info';
-export const frontend = 'https://bnbchainx.com';
-export const dollar = "$"
+// export const domain = 'http://192.168.99.149:9010';
+export const domain = "https://backend.fastro.info";
+export const frontend = "https://bnbchainx.com";
+export const dollar = "$";
 
 export const endpoint = {
   registration_api: `${domain}/api/v4/auth-registration`,
@@ -49,11 +49,8 @@ export const endpoint = {
   get_topup_api: `${domain}/api/v4/get-topup-details-admin`,
   user_data: `${domain}/api/v4/get-user-details-admin`,
   level_bonus_data: `${domain}/api/v4/get-roi-income-details-admin`,
-   get_downline_team: `${domain}/api/v4/get-downline-team`,
+  get_downline_team: `${domain}/api/v4/get-downline-team`,
   get_upline_team: `${domain}/api/v4/get-upline-team`,
   inr_payout_data: `${domain}/api/v4/get-withdrawal-details-admin`,
   very_fy_OTP: `${domain}/api/v4/verify-otp`,
-
-
-
 };
