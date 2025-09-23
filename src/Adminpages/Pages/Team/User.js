@@ -58,19 +58,18 @@ const UserDetail = () => {
     if (!limitValue) return alert("Please enter a limit.");
 
     try {
-        const req ={
-            user_id: userId,
-            limit: limitValue,
-        }
+      const req = {
+        user_id: userId,
+        limit: limitValue || allData?.jnr_mlm_with_cap,
+      };
       const response = await apiConnectorPost(endpoint.set_withdrawal_limit, {
-        payload : enCryptData(req)
+        payload: enCryptData(req),
       });
-        Swal.fire({
-            icon: response?.data?.msg ? "success" : "error",
-            title: response?.data?.msg ? "Success" : "Error",
-            text: response?.data?.msg || "Something happened",
-          });
-      
+      Swal.fire({
+        icon: response?.data?.msg ? "success" : "error",
+        title: response?.data?.msg ? "Success" : "Error",
+        text: response?.data?.msg || "Something happened",
+      });
     } catch (error) {
       console.error("Error updating limit:", error);
       alert("Something went wrong.");
@@ -105,10 +104,10 @@ const UserDetail = () => {
       </span>,
       <span>
         <input
-        className="text-center p-1"
+          className="text-center p-1"
           type="text"
           placeholder="Enter Withdrawal Limits"
-          value={limits[row.lgn_jnr_id] || ""}
+          value={limits[row.lgn_jnr_id] ?? Number(row.jnr_mlm_with_cap).toFixed(2) ?? ""}
           onChange={(e) =>
             setLimits((prev) => ({
               ...prev,
@@ -116,6 +115,7 @@ const UserDetail = () => {
             }))
           }
         />
+
         <button
           onClick={() => handleLimitUpdate(row.lgn_jnr_id)}
           className="ml-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
