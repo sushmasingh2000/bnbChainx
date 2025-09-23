@@ -1,6 +1,7 @@
 export const API_URLS = {
 
-
+   
+  payout_request_approval: `/api/v4/withdrawal-approval-from-admin`,
   admin_login: `/api/v1/auth-admin-login`,
   dashboard_api: `/api/v1/admin-dashboard`,
 

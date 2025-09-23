@@ -1,15 +1,13 @@
-import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
-import { Box } from "@mui/material";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 import Loader from "../../Shared/Loader";
 import { apiConnectorGet, apiConnectorPost } from "../../utils/APIConnector";
 import { endpoint } from "../../utils/APIRoutes";
 import { enCryptData } from "../../utils/Secret";
-import { Wallet } from "@mui/icons-material";
-import { useQuery } from "react-query";
+
 function Payout() {
   // const [walletAddress, setWalletAddress] = useState("");
   const [data, setData] = useState("");
@@ -39,12 +37,7 @@ function Payout() {
       wallet_type:
         withdrawalType === "jackpot" ? 3 : withdrawalType === "wingo" ? 4 : 2,
     };
-    if (fk.values.amount === "" || Number(fk.values.amount) < 2)
-      return toast("Amount should be grater or equal to 2$", { id: 1 });
-    if (!fk.values.walletAddress)
-      return toast("Please Update Your Profile before withdrawal request.", {
-        id: 1,
-      });
+
     setLoding(true);
 
     try {
@@ -56,7 +49,20 @@ function Payout() {
         base64String
       );
       setData(res?.data?.result?.[0]);
-      alert(res?.data?.message);
+      Swal.fire({
+        title:
+          String(res?.data?.success) === "true"
+            ? "🎉 Congratulations!"
+            : "Error!",
+        html:
+          String(res?.data?.success) === "true"
+            ? `
+            <p style="font-size:14px; margin-bottom:8px;">${res?.data?.message}</p>
+          `
+            : `<p style="font-size:14px; margin-bottom:8px;">${res?.data?.message}</p>`,
+        icon: String(res?.data?.success) === "true" ? "success" : "error",
+        confirmButtonColor: "#75edf2",
+      });
       fk.handleReset();
       if (String(res?.data?.success) === "true") {
         GetWalletUserData();
@@ -101,21 +107,22 @@ function Payout() {
   // const profile = profile_data?.data?.result || [];
   // console.log(userData);
 
-  const { data: profile, refetch: refetchProfile } = useQuery( // Added refetch
+  const { data: profile, refetch: refetchProfile } = useQuery(
+    // Added refetch
     ["get_profile"],
     () => apiConnectorGet(endpoint?.profile_api),
     {
-        refetchOnMount: false,
-        refetchOnReconnect: false,
-        refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
     }
-);
-const user_profile = profile?.data?.result?.[0] || [];
-  
+  );
+  const user_profile = profile?.data?.result?.[0] || [];
+
   return (
     <div className="min-h-screen bg-gray-900 py-10 px-4">
       <Loader isLoading={loding} />
-  
+
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-md p-6  ">
         {/* Icon */}
         {/* <div className="flex justify-center mb-6">
@@ -125,18 +132,18 @@ const user_profile = profile?.data?.result?.[0] || [];
             style={{ fontSize: 60 }}
           />
         </div> */}
-  
+
         {/* Balance Info */}
         <div className="bg-gray-800 p-4  mb-4 border border-gold-color">
           <div className="text-gold-color text-sm font-semibold mb-1">
-           Current Balance
+            Current Balance
           </div>
           <div className="text-green-400 text-xl font-bold">
             {user_profile?.jnr_curr_wallet}
             USD
           </div>
         </div>
-  
+
         {/* Wallet Address Display */}
         <div className="mb-4 text-sm bg-gray-800 text-white p-3  border border-gold-color">
           <div className="font-medium text-gold-color">Address:</div>
@@ -144,7 +151,7 @@ const user_profile = profile?.data?.result?.[0] || [];
             {fk.values.walletAddress}
           </div>
         </div>
-  
+
         {/* Amount Input */}
         <div className="mb-4">
           <label htmlFor="amount" className="text-sm  font-medium mb-1 block">
@@ -160,10 +167,13 @@ const user_profile = profile?.data?.result?.[0] || [];
             className="w-full p-2 text-sm  bg-gray-700 text-white border border-gold-color focus:ring focus:ring-yellow-300 outline-none"
           />
         </div>
-  
+
         {/* Wallet Address Input (read-only) */}
         <div className="mb-4">
-          <label htmlFor="walletAddress" className="text-xs  font-medium mb-1 block">
+          <label
+            htmlFor="walletAddress"
+            className="text-xs  font-medium mb-1 block"
+          >
             Confirm Wallet Address (BEP20)
           </label>
           <input
@@ -175,7 +185,7 @@ const user_profile = profile?.data?.result?.[0] || [];
             className="w-full p-2 text-xs font-semibold  bg-gray-800 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-orange-500 to-gold-color border border-gold-color outline-none"
           />
         </div>
-  
+
         {/* Confirm Button */}
         <button
           onClick={Payout}
@@ -183,7 +193,7 @@ const user_profile = profile?.data?.result?.[0] || [];
         >
           Confirm
         </button>
-  
+
         {/* Note */}
         {/* <div className="text-xs text-red-400 mt-4 p-3 bg-gray-800 rounded-md border border-red-300">
           <strong>Note:</strong> Please ensure that your wallet address is BEP20 Network (Format: 0x..). You will be responsible for any incorrect entries.
@@ -191,6 +201,5 @@ const user_profile = profile?.data?.result?.[0] || [];
       </div>
     </div>
   );
-  
 }
 export default Payout;

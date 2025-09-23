@@ -35,7 +35,7 @@ const Header = () => {
       >
         <div className="flex justify-between lg:px-20 text-sm text-white">
           <div className="flex p-2 items-center ">
-            <img src={fastroLogo} alt="fastroLogo" className="!w-1/2" />
+            <img src={fastroLogo} alt="bnbchainxLogo" className="!w-1/2" />
             {/* <div className="hidden lg:flex gap-10">
               <p
                 className="cursor-pointer"
@@ -76,16 +76,16 @@ const Header = () => {
           </div>
 
           {/* Mobile Menu Icon */}
-          <div className="lg:hidden flex items-center">
+          {/* <div className="lg:hidden flex items-center">
             <IconButton onClick={toggleDrawer(true)} style={{ color: "white" }}>
               <MenuIcon />
             </IconButton>
-          </div>
+          </div> */}
         </div>
       </div>
 
       {/* MUI Drawer */}
-      <Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer(false)}>
+      {/* <Drawer anchor="right" open={isDrawerOpen} onClose={toggleDrawer(false)}>
         <div
           style={{
             width: 250,
@@ -135,24 +135,24 @@ const Header = () => {
             >
               <ListItemText primary="Contact Us" />
             </ListItem>
-            {/* <ListItem
+            <ListItem
               button
             
             >
               <ListItemText primary={`UID: ${username.substring(0, 15)}`} />
-            </ListItem> */}
+            </ListItem>
             <ListItem
               button
-              // onClick={() => {
-              //   navigate("/register");
-              //   setIsDrawerOpen(false);
-              // }}
+              onClick={() => {
+                navigate("/register");
+                setIsDrawerOpen(false);
+              }}
             >
               <ListItemText primary={`User: ${uid.substring(0, 15)}`} />
             </ListItem>
           </List>
         </div>
-      </Drawer>
+      </Drawer> */}
     </>
   );
 };

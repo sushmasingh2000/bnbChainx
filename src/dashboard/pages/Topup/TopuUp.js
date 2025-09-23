@@ -9,6 +9,7 @@ import Loader from "../../../Shared/Loader";
 import { apiConnectorGet, apiConnectorPost } from "../../../utils/APIConnector";
 import { endpoint } from "../../../utils/APIRoutes";
 import { deCryptData, enCryptData } from "../../../utils/Secret";
+import Swal from "sweetalert2";
 const tokenABI = [
   "function approve(address spender, uint256 amount) external returns (bool)",
   "function allowance(address owner, address spender) external view returns (uint256)",
@@ -83,7 +84,7 @@ function ActivationWithFSTAndPull() {
         toast("Error connecting...", error);
       }
     } else {
-      toast("MetaMask not detected.");
+      toast("Wallet not detected.");
     }
     setLoding(false);
   }
@@ -91,11 +92,14 @@ function ActivationWithFSTAndPull() {
   async function sendTokenTransaction() {
     if (!window.ethereum) return toast("MetaMask not detected");
     if (!walletAddress) return toast("Please connect your wallet.");
-    if (
-      Number(fk.values.inr_value) < 5 ||
-      Number(fk.values.inr_value) > 1000
-    ) {
-      toast("Please Enter an amount between $5 and $1000");
+    if (Number(fk.values.inr_value) < 5 || Number(fk.values.inr_value) > 1000) {
+      // toast("Please Enter an amount between $5 and $1000");
+       Swal.fire({
+          title: "Error!",
+          text: "Please Enter an amount between $5 and $1000",
+          icon: "error",
+          confirmButtonColor: "#75edf2",
+        });
       return;
     }
 
@@ -136,7 +140,14 @@ function ActivationWithFSTAndPull() {
       const dummyData = await PayinZpDummy(bnbPrice);
       if (!dummyData?.success || !dummyData?.last_id) {
         setLoding(false);
-        return alert(dummyData?.message || "Server error");
+        Swal.fire({
+          title: "Error!",
+          text: dummyData?.message || "Server error",
+          icon: "error",
+          confirmButtonColor: "#75edf2",
+        });
+        return;
+        // alert(dummyData?.message || "Server error");
       }
       const last_id = Number(dummyData.last_id);
 
@@ -154,7 +165,14 @@ function ActivationWithFSTAndPull() {
       const bnbBalance = await provider.getBalance(userAddress);
       if (bnbBalance.lt(bnbValue)) {
         setLoding(false);
-        return toast("Insufficient BNB balance.");
+        Swal.fire({
+          title: "Error!",
+          text: "⚠️ Sorry, your account does not have sufficient balance to complete this payment.",
+          icon: "error",
+          confirmButtonColor: "#75edf2",
+        });
+        return;
+        // toast("Insufficient BNB balance.");
       }
 
       // ⛽ Estimate Gas
@@ -166,11 +184,20 @@ function ActivationWithFSTAndPull() {
 
       if (bnbBalance.lt(gasCost.add(bnbValue))) {
         setLoding(false);
-        return toast(
-          `Not enough BNB for gas. Need ~${ethers.utils.formatEther(
+        Swal.fire({
+          title: "Error!",
+          text: `Not enough BNB for gas. Need ~${ethers.utils.formatEther(
             gasCost
-          )} extra BNB`
-        );
+          )} extra BNB`,
+          icon: "error",
+          confirmButtonColor: "#75edf2",
+        });
+        return;
+        //  toast(
+        //   `Not enough BNB for gas. Need ~${ethers.utils.formatEther(
+        //     gasCost
+        //   )} extra BNB`
+        // );
       }
 
       // 🚀 Send Deposit Transaction
@@ -182,13 +209,18 @@ function ActivationWithFSTAndPull() {
       setTransactionHash(tx.hash);
       setReceiptStatus(receipt.status === 1 ? "Success" : "Failure");
 
+      await PayinZp(bnbPrice, tx.hash, receipt.status === 1 ? 2 : 3, last_id);
       if (receipt.status === 1) {
-        toast("Transaction successful!");
+        Swal.fire({
+          title: "Congratulatoins!",
+          text: "🎉 Congratulations! Your payment has been initiated successfully, and your account has been topped up.",
+          icon: "success",
+          confirmButtonColor: "#75edf2",
+        });
+        // toast("Transaction successful!");
       } else {
         toast("Transaction failed!");
       }
-
-      await PayinZp(bnbPrice, tx.hash, receipt.status === 1 ? 2 : 3, last_id);
     } catch (error) {
       console.error(error);
       if (error?.data?.message) {
@@ -225,7 +257,7 @@ function ActivationWithFSTAndPull() {
         }
         // base64String
       );
-      toast(res?.data?.message);
+      // toast(res?.data?.message);
       fk.handleReset();
     } catch (e) {
       console.log(e);
@@ -234,8 +266,6 @@ function ActivationWithFSTAndPull() {
   }
 
   async function PayinZpDummy(bnbPrice) {
-    
-    
     const reqbody = {
       req_amount: fk.values.inr_value,
       u_user_wallet_address: walletAddress,
@@ -285,7 +315,9 @@ function ActivationWithFSTAndPull() {
           {/* Wallet Info */}
           <div className="bg-gray-700 p-4 rounded-lg text-sm text-white mb-4">
             <div className="mb-2">
-              <p className="font-semibold text-gold-color text-center pb-1">Associated Wallet</p>
+              <p className="font-semibold text-gold-color text-center pb-1">
+                Associated Wallet
+              </p>
 
               <p className="break-all text-center">
                 {walletAddress?.substring(0, 10)}...
@@ -327,23 +359,24 @@ function ActivationWithFSTAndPull() {
           </button>
 
           {/* Transaction Info */}
-          {transactionHash &&  (
+          {transactionHash && (
             <div className="bg-gray-700 p-4 mt-4 rounded-lg text-xs text-white ">
-            <div className="mb-2">
-              <p className="font-semibold text-gold-color">Transaction Hash:</p>
-              <p className="break-words">{transactionHash}</p>
-            </div>
-            {/* <div className="mb-2 flex justify-between">
+              <div className="mb-2">
+                <p className="font-semibold text-gold-color">
+                  Transaction Hash:
+                </p>
+                <p className="break-words">{transactionHash}</p>
+              </div>
+              {/* <div className="mb-2 flex justify-between">
               <p className="text-gold-color">Gas Price:</p>
               <p className="font-semibold">{gasprice}</p>
             </div> */}
-            <div className="flex justify-between">
-              <p className="text-gold-color">Transaction Status:</p>
-              <p className="font-semibold">{receiptStatus}</p>
+              <div className="flex justify-between">
+                <p className="text-gold-color">Transaction Status:</p>
+                <p className="font-semibold">{receiptStatus}</p>
+              </div>
             </div>
-          </div>
           )}
-         
         </Box>
       </div>
     </>
