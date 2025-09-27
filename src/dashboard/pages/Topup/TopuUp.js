@@ -29,7 +29,6 @@ function ActivationWithFSTAndPull() {
   const [receiptStatus, setReceiptStatus] = useState("");
   const [bnb, setBnb] = useState("");
 
-  const [gasprice, setGasPrice] = useState("");
   const [loding, setLoding] = useState(false);
   // const location = useLocation();
   // const params = new URLSearchParams(location?.search);
@@ -209,7 +208,7 @@ function ActivationWithFSTAndPull() {
       setTransactionHash(tx.hash);
       setReceiptStatus(receipt.status === 1 ? "Success" : "Failure");
 
-      await PayinZp(bnbPrice, tx.hash, receipt.status === 1 ? 2 : 3, last_id);
+      // await PayinZp(bnbPrice, tx.hash, receipt.status === 1 ? 2 : 3, last_id);
       if (receipt.status === 1) {
         Swal.fire({
           title: "Congratulatoins!",

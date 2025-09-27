@@ -11,8 +11,9 @@ import {
 import { useQuery } from "react-query";
 import Loader from "../Shared/Loader";
 import { apiConnectorGet } from "../utils/APIConnector";
-import { endpoint, frontend } from "../utils/APIRoutes";
+import { endpoint, frontend, support_mail } from "../utils/APIRoutes";
 import { useNavigate } from "react-router-dom";
+import { Mail } from "@mui/icons-material";
 
 const Dashboard = () => {
   const { data: dashboard_Api, isLoading } = useQuery(
@@ -130,12 +131,14 @@ const Dashboard = () => {
                 Copy
               </button>
             </div>
-            <div className="flex space-x-4 mt-3 text-xl">
-              <i className="fab fa-whatsapp"></i>
+            <div className="flex space-x-4 mt-3 text-sm items-center">
+              <Mail onClick={() => functionTOCopy(support_mail)} />{" "}
+              <span className="!text-[11px]" onClick={() => functionTOCopy(support_mail)}>{support_mail}</span>
+              {/* <i className="fab fa-mail"></i>
               <i className="fab fa-telegram"></i>
               <i className="fab fa-facebook"></i>
               <i className="fab fa-instagram"></i>
-              <i className="fab fa-twitter"></i>
+              <i className="fab fa-twitter"></i> */}
             </div>
           </div>
 

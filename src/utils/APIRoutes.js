@@ -1,7 +1,8 @@
-// export const domain = 'http://192.168.99.149:9010';
+// export const domain = 'http://192.168.18.214:9010';
 export const domain = "https://backend.fastro.info";
-export const frontend = "https://bnbchainx.com";
+export const frontend = "https://bnbchainx.co";
 export const dollar = "$";
+export const support_mail = "support@bnbchainx.com";
 
 export const endpoint = {
   registration_api: `${domain}/api/v4/auth-registration`,
@@ -44,8 +45,6 @@ export const endpoint = {
   forgot_email: `${domain}/api/v4/password-on-mail`,
   check_real_transaction: `${domain}/api/v4/check-real-transactoin`,
   set_withdrawal_limit: `${domain}/api/v4/update-withdrawal-limit`,
-
-  
 
   //admin
   admin_dashboard: `${domain}/api/v4/get-admin-dashboard-data`,
